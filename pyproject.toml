@@ -3,11 +3,11 @@ requires = ["uv_build>=0.9.22,<0.10.0"]
 build-backend = "uv_build"
 
 [project]
-name = "coffee_leaf_diseases"
+name = "coffee_leaf_classifier"
 version = "0.0.1"
-description = "Coffee leaf disease detection"
+description = "Coffee leaf classifier project for DTU MLOps final course"
 authors = [
-  { name = "MLOps Group 40", email = "your@email.com" },
+  { name = "Group 40", email = "your@email.com" },
 ]
 
 keywords = ["machine learning", "MLOps"]
@@ -16,7 +16,7 @@ classifiers = [
   "Programming Language :: Python :: 3",
 ]
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
     "fastapi==0.115.6",
     "torch==2.6.0",

@@ -1,5 +1,5 @@
-site_name: coffee_leaf_diseases
-site_author: MLOps Group 40
+site_name: coffee_leaf_classifier
+site_author: Group 40
 docs_dir: source
 
 theme:

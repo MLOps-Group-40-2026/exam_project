@@ -3,8 +3,8 @@ import os
 from invoke import Context, task
 
 WINDOWS = os.name == "nt"
-PROJECT_NAME = "coffee_leaf_diseases"
-PYTHON_VERSION = "3.12"
+PROJECT_NAME = "coffee_leaf_classifier"
+PYTHON_VERSION = "3.11"
 
 # Project commands
 @task

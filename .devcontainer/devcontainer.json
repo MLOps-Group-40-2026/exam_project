@@ -1,9 +1,9 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
-    "name": "coffee_leaf_diseases",
+    "name": "coffee_leaf_classifier",
     // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-    "image": "mcr.microsoft.com/devcontainers/python:3.12-bullseye",
+    "image": "mcr.microsoft.com/devcontainers/python:3.11-bullseye",
     "features": {},
 
     // Use 'postCreateCommand' to run commands after the container is created.
@@ -17,8 +17,8 @@
                 "python.testing.pytestArgs": ["tests"],
                 "python.testing.unittestEnabled": false,
                 "python.testing.pytestEnabled": true,
-                "python.defaultInterpreterPath": "/workspaces/coffee_leaf_diseases/.venv/bin/python",
-                "python.testing.pytestPath": "/workspaces/coffee_leaf_diseases/.venv/bin/pytest"
+                "python.defaultInterpreterPath": "/workspaces/coffee_leaf_classifier/.venv/bin/python",
+                "python.testing.pytestPath": "/workspaces/coffee_leaf_classifier/.venv/bin/pytest"
             }
         }
     }
