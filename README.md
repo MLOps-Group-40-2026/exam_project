@@ -6,12 +6,12 @@ The goal of the project is to demonstrate machine learning operations practices 
 
 By the end, we aim to have:
 - a reproducible training pipeline (containerized with Docker) and tested by comparing model weights.
-- tracked experiments (hyperparameters, metrics, and artifacts) with Weights & Biases
-- a saved model artifact and a prediction entry point (command line interface and a small API)
-- basic automated tests and continuous integration
+- tracked experiments (hyperparameters, metrics, and artifacts) with Weights & Biases.
+- a saved model artifact and a prediction entry point (command line interface and a small API).
+- basic automated tests and continuous integration.
 
 ## Framework
-**Framework:** PyTorch Lightning.
+**Framework:** PyTorch Lightning
 
 How it is integrated:
 - A `LightningDataModule` to handle dataset download, preprocessing, transformations, and train/validation/test splits.
@@ -49,7 +49,7 @@ Secondary metrics:
 - Version control: GitHub
 - Application logging: Loguru
 - Experiment tracking: Weights & Biases
-- Experiment configuration: hydra
+- Experiment configuration: Hydra
 - Profiling: PyTorch Profiler
 - Reproducibility: Docker
 
@@ -57,4 +57,4 @@ Secondary metrics:
 - Commit `pyproject.toml` and the `uv` lockfile so dependency resolution is reproducible.
 - Set random seeds in training entry points.
 - Use Docker to standardize the runtime environment across machines.
-- Record training configuration (hyperparameters, data transformations, model name, random seed) in Weights & Biases and version control using hydra.
+- Record training configuration (hyperparameters, data transformations, model name, random seed) in Weights & Biases and version control using Hydra.
