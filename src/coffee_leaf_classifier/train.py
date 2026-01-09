@@ -1,5 +1,5 @@
-from coffee_leaf_diseases.model import Model
-from coffee_leaf_diseases.data import MyDataset
+from coffee_leaf_classifier.model import Model
+from coffee_leaf_classifier.data import MyDataset
 
 def train():
     dataset = MyDataset("data/raw")
