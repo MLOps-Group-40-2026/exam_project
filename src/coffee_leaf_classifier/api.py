@@ -1,6 +1,10 @@
 """FastAPI for coffee leaf disease classification."""
+
 from fastapi import FastAPI, UploadFile
+from loguru import logger
 from pydantic import BaseModel
+
+logger.info("Starting Coffee Leaf Disease Classifier API")
 
 app = FastAPI(
     title="Coffee Leaf Disease Classifier",
@@ -8,11 +12,11 @@ app = FastAPI(
     version="0.1.0",
 )
 
-#TODO: root endpoint that redirects to docs
+# TODO: root endpoint that redirects to docs
 
 # Disease classes from the dataset
 # not used for now but may be useful later
-CLASSES = ["Healthy", "Miner", "Phoma", "Red Spider Mite", "Rust"] #noqa
+CLASSES = ["Healthy", "Miner", "Phoma", "Red Spider Mite", "Rust"]  # noqa
 
 
 class PredictionResponse(BaseModel):
@@ -42,6 +46,7 @@ class InfoResponse(BaseModel):
 @app.get("/health", response_model=HealthResponse)
 def health() -> HealthResponse:
     """Health check endpoint."""
+    logger.debug("Health check requested")
     return HealthResponse(status="healthy")
 
 
@@ -55,6 +60,7 @@ def info() -> InfoResponse:
         model_loaded=False,  # TODO: Update when model is loaded
     )
 
+
 # TODO: validate file type and size
 @app.post("/predict", response_model=PredictionResponse)
 async def predict(file: UploadFile) -> PredictionResponse:
@@ -67,6 +73,7 @@ async def predict(file: UploadFile) -> PredictionResponse:
     Returns:
         Prediction with confidence scores
     """
+    logger.info(f"Prediction requested for file: {file.filename}")
     # For now, return mock response
     # TODO: actual model prediction logic
     mock_probabilities = {
