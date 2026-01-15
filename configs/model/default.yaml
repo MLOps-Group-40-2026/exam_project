@@ -1,0 +1,9 @@
+# Model configuration.
+# Architecture and model hyperparameters.
+
+name: "default_model"
+
+params:
+  num_classes: 5
+  input_size: 224
+  dropout: 0.0

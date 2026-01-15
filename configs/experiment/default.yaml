@@ -1,0 +1,15 @@
+# Experiment-level configuration.
+# Run naming, paths and reproducibility switches.
+
+name: "baseline"
+
+paths:
+  data_dir: "data/raw"
+  output_dir: "outputs"
+
+reproducibility:
+  seed: 13
+
+logging:
+  enable: true
+  level: "INFO"
