@@ -1,23 +1,26 @@
-from pathlib import Path
-import hydra
-from omegaconf import DictConfig
-from loguru import logger
-from coffee_leaf_classifier.data import MyDataset
 from coffee_leaf_classifier.model import Model
+from coffee_leaf_classifier.data import CoffeeLeafDataset
+import pytorch_lightning as pl
+from torch.utils.data import DataLoader
 
-# Absolute path to exam_project/configs, computed from this file location.
-CONFIG_DIR = str(Path(__file__).resolve().parents[2] / "configs")
+def train(batch_size = 64):
+    model = Model()
+    trainer = pl.Trainer(max_epochs=10)
 
+    train_ds = CoffeeLeafDataset("train")
+    val_ds = CoffeeLeafDataset("validation")
+    test_ds = CoffeeLeafDataset("test")
 
-@hydra.main(version_base="1.3", config_path=CONFIG_DIR, config_name="config.yaml")
-def train(cfg: DictConfig) -> None:
-    logger.info("Starting training...")
-    dataset = MyDataset(cfg.experiment.paths.data_dir)  # noqa: F841
-    model = Model()  # noqa: F841
-    logger.info("Training complete")
-    print("Loaded config:")
-    print(cfg)
+    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
+    val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
+    test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
+
+    batch = next(iter(train_loader))
+    print(batch["image"].shape, batch["label"].shape)  # (8, 3, 256, 256) (8,)
+
+    trainer.fit(model=model, train_dataloaders=train_loader, val_dataloaders=val_loader)
+
 
 if __name__ == "__main__":
-    logger.info("Running training script")
+    
     train()
