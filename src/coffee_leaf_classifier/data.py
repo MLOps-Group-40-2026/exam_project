@@ -1,29 +1,22 @@
-from pathlib import Path
-
-import typer
+from datasets import load_dataset
+import torch
+from torchvision.transforms import v2 as transforms
 from torch.utils.data import Dataset
 
+class CoffeeLeafDataset(Dataset):
+    def __init__(self, split: str = "train", target_size: int = 128) -> None:
+        self.ds = load_dataset("brainer-fp66/coffee-leaf-diseases")[split]
 
-class MyDataset(Dataset):
-    """My custom dataset."""
-
-    def __init__(self, data_path: Path) -> None:
-        self.data_path = data_path
+        self.transform = transforms.Compose([
+            transforms.Resize((target_size, target_size)),
+            transforms.ToTensor(),
+        ])
 
     def __len__(self) -> int:
-        """Return the length of the dataset."""
+        return len(self.ds)
 
     def __getitem__(self, index: int):
-        """Return a given sample from the dataset."""
-
-    def preprocess(self, output_folder: Path) -> None:
-        """Preprocess the raw data and save it to the output folder."""
-
-def preprocess(data_path: Path, output_folder: Path) -> None:
-    print("Preprocessing data...")
-    dataset = MyDataset(data_path)
-    dataset.preprocess(output_folder)
-
-
-if __name__ == "__main__":
-    typer.run(preprocess)
+        item = self.ds[index]
+        image = self.transform(item["image"].convert("RGB"))              # tensor [3, S, S]
+        label = torch.tensor(int(item["label"]), dtype=torch.long)        # tensor []
+        return {"image": image, "label": label}
