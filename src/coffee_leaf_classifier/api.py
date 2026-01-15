@@ -8,11 +8,11 @@ app = FastAPI(
     version="0.1.0",
 )
 
-#TODO: root endpoint that redirects to docs
+# TODO: root endpoint that redirects to docs
 
 # Disease classes from the dataset
 # not used for now but may be useful later
-CLASSES = ["Healthy", "Miner", "Phoma", "Red Spider Mite", "Rust"] #noqa
+CLASSES = ["Healthy", "Miner", "Phoma", "Red Spider Mite", "Rust"]  # noqa
 
 
 class PredictionResponse(BaseModel):
@@ -54,6 +54,7 @@ def info() -> InfoResponse:
         description="Classifies coffee leaf images into disease categories",
         model_loaded=False,  # TODO: Update when model is loaded
     )
+
 
 # TODO: validate file type and size
 @app.post("/predict", response_model=PredictionResponse)
