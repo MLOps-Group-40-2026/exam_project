@@ -22,25 +22,26 @@ dependencies = [
     "fastapi==0.115.6",
     "hydra-core>=1.3.2",
     "loguru>=0.7.3",
+    "python-multipart>=0.0.21",
     "pillow>=12.1.0",
     "pytorch-lightning>=2.6.0",
-    "torch>=2.6.0",
+    "torch>=2.9.1",
     "torchvision>=0.21.0",
     "typer==0.15.1",
-    "uvicorn==0.34.0",
+    "uvicorn==0.40.0",
     "wandb>=0.23.1",
 ]
 
 [dependency-groups]
 dev = [
-    "coverage==7.6.9",
-    "invoke==2.2.0",
+    "coverage==7.13.1",
+    "invoke==2.2.1",
     "mkdocs-material==9.4.6",
     "mkdocs==1.6.1",
     "pre-commit==4.1.0",
-    "pytest==8.3.4",
+    "pytest==9.0.2",
     "ruff==0.1.3",
-    "mkdocstrings-python==1.12.2",
+    "mkdocstrings-python==2.0.1",
 ]
 
 [tool.ruff]
