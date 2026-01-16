@@ -1,9 +1,9 @@
 from torch.utils.data import Dataset
 
-from coffee_leaf_classifier.data import MyDataset
+from coffee_leaf_classifier.data import CoffeeLeafDataset
 
 
-def test_my_dataset():
-    """Test the MyDataset class."""
-    dataset = MyDataset("data/raw")
+def test_coffee_leaf_dataset():
+    """Test the CoffeeLeafDataset class."""
+    dataset = CoffeeLeafDataset("train")
     assert isinstance(dataset, Dataset)
