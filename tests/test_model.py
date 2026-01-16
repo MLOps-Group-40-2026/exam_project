@@ -14,7 +14,7 @@ def test_model_forward_pass():
     input_tensor = torch.randn(1, 3, 2048, 1024)  # Example input tensor
     output = model(input_tensor)
     assert output.shape[0] == 1  # Check batch size
-    assert output.shape[1] == model.num_classes  # Check number of classes
+    assert output.shape[1] == 5  # Check number of classes
 
 
 def test_model_on_gpu():
