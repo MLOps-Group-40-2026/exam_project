@@ -13,3 +13,8 @@ reproducibility:
 logging:
   enable: true
   level: "INFO"
+  wandb:
+    enable: true
+    project: "coffee_leaf_classifier"
+    tags: ["baseline"]
+    mode: "offline"
