@@ -1,7 +1,10 @@
-FROM pytorch/pytorch:2.1.0-cuda12.1-cudnn8-runtime AS base
+FROM pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime AS base
 
 # Install uv
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
+# Use system Python (3.11 from PyTorch image) instead of downloading newer versions
+ENV UV_PYTHON_PREFERENCE=only-system
 
 COPY uv.lock uv.lock
 COPY pyproject.toml pyproject.toml
