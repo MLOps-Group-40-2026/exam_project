@@ -13,6 +13,7 @@ COPY README.md README.md
 RUN uv sync --frozen --no-install-project
 
 COPY src src/
+COPY configs configs/
 
 RUN uv sync --frozen
 
