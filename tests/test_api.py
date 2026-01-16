@@ -2,6 +2,7 @@
 
 import io
 
+import pytest
 from fastapi.testclient import TestClient
 from PIL import Image
 
