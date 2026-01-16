@@ -3,9 +3,11 @@ import torch
 
 from coffee_leaf_classifier.model import Model
 
+
 def test_model_initialization():
     model = Model()
     assert isinstance(model, Model)
+
 
 def test_model_forward_pass():
     model = Model()
@@ -13,6 +15,7 @@ def test_model_forward_pass():
     output = model(input_tensor)
     assert output.shape[0] == 1  # Check batch size
     assert output.shape[1] == model.num_classes  # Check number of classes
+
 
 def test_model_on_gpu():
     if torch.cuda.is_available():
@@ -22,6 +25,7 @@ def test_model_on_gpu():
         assert output.is_cuda
     else:
         pytest.skip("CUDA is not available")
+
 
 def test_error_on_invalid_input():
     model = Model()
