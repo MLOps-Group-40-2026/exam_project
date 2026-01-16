@@ -1,7 +1,7 @@
 import pytorch_lightning as pl
 import torch
 from torch import nn
-import torch.nn.functional as F
+
 
 class Model(pl.LightningModule):
     def __init__(self, num_classes: int = 5, lr: float = 1e-3):
@@ -12,11 +12,9 @@ class Model(pl.LightningModule):
             nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1),
             nn.ReLU(),
             nn.MaxPool2d(2),
-
             nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1),
             nn.ReLU(),
             nn.MaxPool2d(2),
-
             nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1),
             nn.ReLU(),
             nn.MaxPool2d(2),
@@ -31,13 +29,13 @@ class Model(pl.LightningModule):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = self.features(x)
-        x = self.pool(x)              # [B, 128, 1, 1]
-        x = torch.flatten(x, 1)       # [B, 128]
+        x = self.pool(x)  # [B, 128, 1, 1]
+        x = torch.flatten(x, 1)  # [B, 128]
         x = self.dropout(x)
-        return self.classifier(x)     # [B, num_classes]
+        return self.classifier(x)  # [B, num_classes]
 
     def training_step(self, batch, batch_idx):
-        x = batch["image"]            # <-- FIX: dictionary access
+        x = batch["image"]  # <-- FIX: dictionary access
         y = batch["label"]
         logits = self(x)
         loss = self.loss_fn(logits, y)
@@ -55,6 +53,7 @@ class Model(pl.LightningModule):
 
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=self.hparams.lr)
+
 
 if __name__ == "__main__":
     model = Model(num_classes=5)
