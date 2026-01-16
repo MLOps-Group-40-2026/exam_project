@@ -53,6 +53,7 @@ def train(cfg: DictConfig) -> None:
     trainer = pl.Trainer(
         max_epochs=int(cfg.training.epochs),
         logger=wandb_logger,
+        accelerator="auto",
     )
 
     trainer.fit(model=model, train_dataloaders=train_loader, val_dataloaders=val_loader)

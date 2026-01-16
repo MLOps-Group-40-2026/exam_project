@@ -1,4 +1,7 @@
-FROM ghcr.io/astral-sh/uv:python3.11-bookworm-slim AS base
+FROM pytorch/pytorch:2.1.0-cuda12.1-cudnn8-runtime AS base
+
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 COPY uv.lock uv.lock
 COPY pyproject.toml pyproject.toml
