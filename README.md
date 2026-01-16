@@ -1,7 +1,8 @@
 # Coffee Leaf Disease Classification (MLOps course project)
 
+
 ## Overall goal
-Build a reproducible machine learning system that classifies coffee leaf images into disease categories.  
+Build a reproducible machine learning system that classifies coffee leaf images into disease categories.
 The goal of the project is to demonstrate machine learning operations practices (reproducible training, experiment tracking, application logging, profiling, testing, and a deployable inference mechanism).
 
 By the end, we aim to have:

@@ -1,0 +1,9 @@
+# Training configuration.
+# Training-loop hyperparameters and runtime knobs.
+
+epochs: 5
+batch_size: 32
+learning_rate: 0.001
+
+device: "cpu"
+num_workers: 0

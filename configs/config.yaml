@@ -1,0 +1,8 @@
+# Main Hydra config.
+# Composes experiment, model and training templates.
+
+defaults:
+  - experiment: default
+  - model: default
+  - training: default
+  - _self_
