@@ -2,7 +2,6 @@
 These tests are for the mock API. Update when real model inference is added.
 """
 
-import pytest
 from fastapi.testclient import TestClient
 
 from coffee_leaf_classifier.api import app
