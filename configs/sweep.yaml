@@ -1,0 +1,21 @@
+program: src/coffee_leaf_classifier/train.py
+name: coffee_leaf_sweep
+project: coffee_leaf_classifier
+entity: mlops-group-40
+
+method: bayes
+metric:
+    goal: minimize
+    name: val_loss
+
+parameters:
+    training.learning_rate:
+        min: 0.0001
+        max: 0.01
+        distribution: log_uniform
+    training.batch_size:
+        values: [16, 32, 64]
+    training.epochs:
+        values: [5, 10, 15]
+
+run_cap: 10
