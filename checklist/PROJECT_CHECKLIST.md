@@ -19,7 +19,7 @@
 - [ ] Use profiling to optimize your code (M12)
 - [x] Use logging to log important events in your code (M14)
 - [x] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
-- [ ] Consider running a hyperparameter optimization sweep (M14)
+- [x] Consider running a hyperparameter optimization sweep (M14)
 - [x] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15)
 
 ## Week 2
@@ -37,7 +37,7 @@
 - [x] Create a trigger workflow for automatically building your docker images (M21)
 - [x] Get your model training in GCP using either the Engine or Vertex AI (M21)
 - [x] Create a FastAPI application that can do inference using your model (M22)
-- [ ] Deploy your model in GCP using either Functions or Run as the backend (M23)
+- [x] Deploy your model in GCP using either Functions or Run as the backend (M23)
 - [x] Write API tests for your application and setup continues integration for these (M24)
 - [ ] Load test your application (M24)
 - [ ] Create a more specialized ML-deployment API using either ONNX or BentoML, or both (M25)

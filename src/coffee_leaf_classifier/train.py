@@ -1,9 +1,12 @@
+import os
 from pathlib import Path
 
 import hydra
 import pytorch_lightning as pl
+from google.cloud import storage
 from loguru import logger
 from omegaconf import DictConfig
+from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
 from torch.utils.data import DataLoader
 
@@ -12,6 +15,19 @@ from coffee_leaf_classifier.model import Model
 
 
 CONFIG_DIR = str(Path(__file__).resolve().parents[2] / "configs")
+
+
+def upload_to_gcs(local_path: str, gcs_path: str) -> None:
+    """Upload a file to GCS."""
+    if gcs_path.startswith("gs://"):
+        gcs_path = gcs_path[5:]
+
+    bucket_name, blob_path = gcs_path.split("/", 1)
+    client = storage.Client()
+    bucket = client.bucket(bucket_name)
+    blob = bucket.blob(blob_path)
+    blob.upload_from_filename(local_path)
+    logger.info(f"Uploaded {local_path} to gs://{bucket_name}/{blob_path}")
 
 
 @hydra.main(version_base="1.3", config_path=CONFIG_DIR, config_name="config.yaml")
@@ -50,13 +66,29 @@ def train(cfg: DictConfig) -> None:
             allow_val_change=True,
         )
 
+    checkpoint_callback = ModelCheckpoint(
+        dirpath="checkpoints",
+        filename="model-{epoch:02d}-{val_loss:.2f}",
+        save_top_k=1,
+        monitor="val_loss",
+        mode="min",
+    )
+
     trainer = pl.Trainer(
         max_epochs=int(cfg.training.epochs),
         logger=wandb_logger,
         accelerator="auto",
+        callbacks=[checkpoint_callback],
     )
 
     trainer.fit(model=model, train_dataloaders=train_loader, val_dataloaders=val_loader)
+
+    best_model_path = checkpoint_callback.best_model_path
+    logger.info(f"Best model saved at: {best_model_path}")
+
+    gcs_model_path = os.environ.get("GCS_MODEL_PATH")
+    if gcs_model_path and best_model_path:
+        upload_to_gcs(best_model_path, gcs_model_path)
 
     logger.info("Training complete")
 

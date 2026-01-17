@@ -6,3 +6,6 @@ workerPoolSpecs:
   replicaCount: 1
   containerSpec:
     imageUri: europe-west1-docker.pkg.dev/mlops-group-40-2026/ml-images/train:latest
+    env:
+      - name: GCS_MODEL_PATH
+        value: gs://mlops-group-40-2026-dvc/models/model.ckpt

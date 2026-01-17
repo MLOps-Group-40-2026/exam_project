@@ -31,9 +31,37 @@ transform = transforms.Compose(
 )
 
 
+def download_model_from_gcs(gcs_path: str, local_path: str) -> bool:
+    """Download model from GCS bucket."""
+    try:
+        from google.cloud import storage
+
+        if gcs_path.startswith("gs://"):
+            gcs_path = gcs_path[5:]
+
+        bucket_name, blob_path = gcs_path.split("/", 1)
+        client = storage.Client()
+        bucket = client.bucket(bucket_name)
+        blob = bucket.blob(blob_path)
+
+        Path(local_path).parent.mkdir(parents=True, exist_ok=True)
+        blob.download_to_filename(local_path)
+        logger.info(f"Downloaded model from gs://{bucket_name}/{blob_path} to {local_path}")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to download model from GCS: {e}")
+        return False
+
+
 def load_model() -> Model:
-    """Load the trained model from checkpoint or create new one."""
+    """Load the trained model from checkpoint, GCS, or create new one."""
     model_path = os.environ.get("MODEL_PATH", "models/model.ckpt")
+    local_path = "/tmp/model.ckpt"
+
+    if model_path.startswith("gs://"):
+        if not Path(local_path).exists():
+            download_model_from_gcs(model_path, local_path)
+        model_path = local_path
 
     if Path(model_path).exists():
         logger.info(f"Loading model from checkpoint: {model_path}")
