@@ -1,4 +1,10 @@
-FROM ghcr.io/astral-sh/uv:python3.11-bookworm-slim AS base
+FROM pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime AS base
+
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
+# Use system Python (3.11 from PyTorch image) instead of downloading newer versions
+ENV UV_PYTHON_PREFERENCE=only-system
 
 COPY uv.lock uv.lock
 COPY pyproject.toml pyproject.toml
@@ -7,6 +13,7 @@ COPY README.md README.md
 RUN uv sync --frozen --no-install-project
 
 COPY src src/
+COPY configs configs/
 
 RUN uv sync --frozen
 
