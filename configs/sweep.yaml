@@ -12,7 +12,7 @@ parameters:
     training.learning_rate:
         min: 0.0001
         max: 0.1
-        distribution: log_uniform_values
+        distribution: log_uniform
     training.batch_size:
         values: [16, 32, 64]
     training.epochs:
