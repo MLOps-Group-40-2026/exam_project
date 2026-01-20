@@ -182,3 +182,7 @@ outputs/
 
 # W&B
 wandb/
+
+# PyTorch profiler traces (too large for GitHub)
+runs/profiler/*.json
+runs/profiler/*.json.gz
