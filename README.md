@@ -59,3 +59,49 @@ Secondary metrics:
 - Set random seeds in training entry points.
 - Use Docker to standardize the runtime environment across machines.
 - Record training configuration (hyperparameters, data transformations, model name, random seed) in Weights & Biases and version control using Hydra.
+
+## Running the Project
+
+### Quick Start (Local, No GCP Required)
+
+```bash
+# Install dependencies
+uv sync
+
+# Train locally (downloads data automatically)
+uv run python src/coffee_leaf_classifier/train.py training.epochs=5
+
+# Run API locally
+uv run uvicorn src.coffee_leaf_classifier.api:app --host 0.0.0.0 --port 8000
+
+# Run tests
+uv run pytest tests/
+```
+
+### Docker (Local, no GCP Required)
+
+```bash
+# Build and run training
+docker build -f dockerfiles/train.dockerfile -t coffee-train .
+docker run coffee-train
+
+# Build and run API
+docker build -f dockerfiles/api.dockerfile -t coffee-api .
+docker run -p 8000:8000 coffee-api
+```
+
+### Live Deployed API (No Setup Required)
+
+The API is deployed on Google Cloud Run and publicly accessible at:
+
+- **Docs:** https://coffee-api-485178670977.europe-west1.run.app/docs
+- **Health:** https://coffee-api-485178670977.europe-west1.run.app/health
+- **Predict:** `POST https://coffee-api-485178670977.europe-west1.run.app/predict` (upload image)
+
+### GCP Infrastructure (Team Access Only)
+
+The following GCP services are used (requires project access):
+- **Vertex AI:** GPU training jobs
+- **Cloud Run:** API hosting
+- **Artifact Registry:** Docker images
+- **Cloud Storage:** Model checkpoints and DVC data
