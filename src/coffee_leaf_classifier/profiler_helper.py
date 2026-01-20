@@ -5,7 +5,6 @@ import torch
 import torch.profiler as profiler
 from loguru import logger
 
-
 def make_pl_profiler():
     """
     Returns a PyTorch Lightning PyTorchProfiler configured to write TensorBoard traces
