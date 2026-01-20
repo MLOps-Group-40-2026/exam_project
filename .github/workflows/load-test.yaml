@@ -7,7 +7,7 @@ on:
       - completed
     branches:
       - main
-  workflow_dispatch:
+  workflow_dispatch:  # Manual trigger
 
 jobs:
   load-test:
