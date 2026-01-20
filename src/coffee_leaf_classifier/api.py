@@ -1,12 +1,15 @@
 """FastAPI for coffee leaf disease classification."""
 
 import io
+import json
 import os
 from contextlib import asynccontextmanager
+from datetime import datetime
 from pathlib import Path
 
+import numpy as np
 import torch
-from fastapi import FastAPI, HTTPException, UploadFile
+from fastapi import BackgroundTasks, FastAPI, HTTPException, UploadFile
 from loguru import logger
 from PIL import Image
 from pydantic import BaseModel
@@ -53,6 +56,49 @@ def download_model_from_gcs(gcs_path: str, local_path: str) -> bool:
     except Exception as e:
         logger.error(f"Failed to download model from GCS: {e}")
         return False
+
+
+def extract_image_features(image: Image.Image) -> dict:
+    """Extract simple features from image for drift detection."""
+    img_array = np.array(image)
+    return {
+        "brightness": float(np.mean(img_array)),
+        "contrast": float(np.std(img_array)),
+        "r_mean": float(np.mean(img_array[:, :, 0])),
+        "g_mean": float(np.mean(img_array[:, :, 1])),
+        "b_mean": float(np.mean(img_array[:, :, 2])),
+    }
+
+
+def log_prediction_to_gcs(
+    features: dict,
+    prediction: str,
+    confidence: float,
+    probabilities: dict[str, float],
+) -> None:
+    """Log prediction data to GCS for drift detection (background task)."""
+    try:
+        from google.cloud import storage
+
+        bucket_name = os.environ.get("GCS_BUCKET", "mlops-group-40-2026-dvc")
+        client = storage.Client()
+        bucket = client.bucket(bucket_name)
+
+        timestamp = datetime.utcnow()
+        log_entry = {
+            "timestamp": timestamp.isoformat(),
+            "features": features,
+            "prediction": prediction,
+            "confidence": confidence,
+            "probabilities": probabilities,
+        }
+
+        blob_name = f"predictions/{timestamp.strftime('%Y/%m/%d/%H%M%S_%f')}.json"
+        blob = bucket.blob(blob_name)
+        blob.upload_from_string(json.dumps(log_entry), content_type="application/json")
+        logger.debug(f"Logged prediction to gs://{bucket_name}/{blob_name}")
+    except Exception as e:
+        logger.warning(f"Failed to log prediction to GCS: {e}")
 
 
 def load_model() -> Model:
@@ -141,12 +187,13 @@ def info() -> InfoResponse:
 
 
 @app.post("/predict", response_model=PredictionResponse)
-async def predict(file: UploadFile) -> PredictionResponse:
+async def predict(file: UploadFile, background_tasks: BackgroundTasks) -> PredictionResponse:
     """
     Predict disease from coffee leaf image.
 
     Args:
         file: Uploaded image file
+        background_tasks: FastAPI background tasks for async logging
 
     Returns:
         Prediction with confidence scores
@@ -165,6 +212,9 @@ async def predict(file: UploadFile) -> PredictionResponse:
         logger.error(f"Failed to process image: {e}")
         raise HTTPException(status_code=400, detail=f"Invalid image file: {e}")
 
+    # Extract features for drift detection
+    features = extract_image_features(image)
+
     # Run inference
     with torch.no_grad():
         logits = model(input_tensor)
@@ -176,6 +226,15 @@ async def predict(file: UploadFile) -> PredictionResponse:
     prob_dict = {cls: probabilities[i].item() for i, cls in enumerate(CLASSES)}
 
     logger.info(f"Prediction: {CLASSES[pred_idx]} with confidence {confidence:.2%}")
+
+    # Log prediction to GCS in background (doesn't slow down response)
+    background_tasks.add_task(
+        log_prediction_to_gcs,
+        features=features,
+        prediction=CLASSES[pred_idx],
+        confidence=confidence,
+        probabilities=prob_dict,
+    )
 
     return PredictionResponse(
         prediction=CLASSES[pred_idx],
