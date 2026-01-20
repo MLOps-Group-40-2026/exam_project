@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 import torch
@@ -8,8 +7,7 @@ from loguru import logger
 def make_pl_profiler():
     """
     Returns a PyTorch Lightning PyTorchProfiler configured to write TensorBoard traces
-    and a Chrome trace. If the Lightning import path differs in your version you will
-    see an import error and we will adjust.
+    and a Chrome trace.
     """
     try:
         from pytorch_lightning.profilers import PyTorchProfiler
