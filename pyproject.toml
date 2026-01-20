@@ -33,6 +33,8 @@ dependencies = [
     "dvc>=3.66.1",
     "dvc-gs>=3.0.2",
     "google-cloud-storage>=3.8.0",
+    "prometheus-client>=0.24.1",
+    "prometheus-fastapi-instrumentator>=7.1.0",
 ]
 
 [dependency-groups]

@@ -15,6 +15,8 @@ from PIL import Image
 from pydantic import BaseModel
 from torchvision.transforms import v2 as transforms
 
+from prometheus_fastapi_instrumentator import Instrumentator
+
 from coffee_leaf_classifier.model import Model
 
 # Disease classes from the dataset
@@ -138,6 +140,8 @@ app = FastAPI(
     version="0.1.0",
     lifespan=lifespan,
 )
+
+Instrumentator().instrument(app).expose(app)
 
 
 class PredictionResponse(BaseModel):
