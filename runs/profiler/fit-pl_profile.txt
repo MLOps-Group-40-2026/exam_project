@@ -1,0 +1,27 @@
+FIT Profiler Report
+Profile stats for: records
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg    # of Calls  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                          ProfilerStep*         0.18%       3.804ms       100.00%        2.167s        1.084s             2  
+                [pl][profile][_EvaluationLoop].val_next         0.01%     285.600us        88.67%        1.922s     960.826ms             2  
+enumerate(DataLoader)#_SingleProcessDataLoaderIter._...        87.62%        1.899s        88.66%        1.921s     960.683ms             2  
+[pl][profile][Strategy]SingleDeviceStrategy.validati...         0.30%       6.556ms        10.55%     228.623ms     114.311ms             2  
+[pl][module]torch.nn.modules.container.Sequential: f...         0.08%       1.782ms        10.13%     219.526ms     109.763ms             2  
+                                           aten::conv2d         0.00%      68.600us         5.55%     120.290ms      20.048ms             6  
+                                      aten::convolution         0.01%     109.900us         5.55%     120.221ms      20.037ms             6  
+                                     aten::_convolution         0.01%     134.500us         5.54%     120.111ms      20.018ms             6  
+                               aten::mkldnn_convolution         5.52%     119.644ms         5.54%     119.977ms      19.996ms             6  
+                                       aten::max_pool2d         0.01%     149.200us         3.47%      75.198ms      12.533ms             6  
+                          aten::max_pool2d_with_indices         3.46%      75.049ms         3.46%      75.049ms      12.508ms             6  
+[pl][module]torch.nn.modules.conv.Conv2d: features.3...         0.03%     585.600us         2.41%      52.247ms      26.124ms             2  
+[pl][module]torch.nn.modules.conv.Conv2d: features.6...         0.02%     534.500us         2.10%      45.590ms      22.795ms             2  
+[pl][module]torch.nn.modules.pooling.MaxPool2d: feat...         0.02%     512.800us         2.10%      45.556ms      22.778ms             2  
+[pl][module]torch.nn.modules.conv.Conv2d: features.0...         0.02%     508.600us         1.11%      24.081ms      12.040ms             2  
+[pl][module]torch.nn.modules.pooling.MaxPool2d: feat...         0.02%     524.300us         0.97%      21.024ms      10.512ms             2  
+                                             aten::relu         0.00%     100.400us         0.82%      17.696ms       2.949ms             6  
+                                        aten::clamp_min         0.81%      17.596ms         0.81%      17.596ms       2.933ms             6  
+[pl][module]torch.nn.modules.activation.ReLU: featur...         0.02%     484.200us         0.48%      10.450ms       5.225ms             2  
+[pl][module]torch.nn.modules.pooling.MaxPool2d: feat...         0.02%     536.200us         0.47%      10.191ms       5.096ms             2  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 2.167s

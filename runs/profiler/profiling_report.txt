@@ -1,0 +1,29 @@
+================================================================================
+PYTORCH PROFILER REPORT
+================================================================================
+
+Generated Trace Files:
+--------------------------------------------------------------------------------
+
+JSON Traces:
+  - EI084N_6848.1768909185440604300.pt.trace.json (139.68 MB)
+  - EI084N_6848.1768909273051591600.pt.trace.json (59.14 MB)
+
+--------------------------------------------------------------------------------
+
+How to Analyze:
+--------------------------------------------------------------------------------
+1. Chrome Traces (Chrome DevTools):
+   - Open Chrome: chrome://tracing
+   - Load *.json.gz files to visualize timeline
+
+2. TensorBoard:
+   - tensorboard --logdir=runs\profiler
+   - Open http://localhost:6006
+
+3. Key Metrics to Look For:
+   - Wall clock time (total training duration)
+   - CPU/GPU utilization percentage
+   - Memory peak usage
+   - Kernel execution time
+   - Data loading vs compute ratio

@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 
 from coffee_leaf_classifier.data import CoffeeLeafDataset
 from coffee_leaf_classifier.model import Model
-
+from coffee_leaf_classifier.profiler_helper import make_pl_profiler, generate_profiling_report
 
 CONFIG_DIR = str(Path(__file__).resolve().parents[2] / "configs")
 
@@ -74,11 +74,18 @@ def train(cfg: DictConfig) -> None:
         mode="min",
     )
 
+    enable_profile = os.getenv("PROFILE", "0") == "1"
+    pl_profiler = make_pl_profiler() if enable_profile else None
+    if enable_profile:
+        logger.info("Profiling enabled. Traces will be saved under runs/profiler")
+
+
     trainer = pl.Trainer(
         max_epochs=int(cfg.training.epochs),
         logger=wandb_logger,
         accelerator="auto",
         callbacks=[checkpoint_callback],
+        profiler=pl_profiler,
     )
 
     trainer.fit(model=model, train_dataloaders=train_loader, val_dataloaders=val_loader)
@@ -89,6 +96,9 @@ def train(cfg: DictConfig) -> None:
     gcs_model_path = os.environ.get("GCS_MODEL_PATH")
     if gcs_model_path and best_model_path:
         upload_to_gcs(best_model_path, gcs_model_path)
+
+    if enable_profile:
+        generate_profiling_report()
 
     logger.info("Training complete")
 
