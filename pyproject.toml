@@ -45,6 +45,7 @@ dev = [
     "pytest==9.0.2",
     "ruff==0.14.13",
     "mkdocstrings-python==2.0.1",
+    "locust>=2.43.1",
 ]
 
 [tool.ruff]
