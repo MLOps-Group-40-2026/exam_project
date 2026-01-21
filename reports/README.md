@@ -293,7 +293,7 @@ We organized our continuous integration into 6 github action workflows.
 
 1. **tests.yaml**: Runs our pytest unit tests on every push and PR. Uses `uv` for fast dependency installation with caching enabled.
 
-2. **linting.yaml**: Runs `ruff` linter and formatter checks to enforce code style consistency. This catches style issues before theyre merged to main.
+2. **linting.yaml**: Runs ruff linter and formatter checks to enforce code style consistency. This catches style issues before theyre merged to main.
 
 3. **docker-build.yaml**: Builds and pushes docker images to artifact registry on pushes to main. Builds both training and api images.
 
@@ -303,7 +303,8 @@ We organized our continuous integration into 6 github action workflows.
 
 6. **pre-commit-update.yaml**: Updates pre commit hooks weekly to keep dependencies current.
 
-We use caching for `uv` dependencies to speed up CI runs cached runs complete in under 2 minutes versus 5+ minutes uncaced. We test across multiple operating systems (Ubuntu, Windows, macOS) and Python versions (3.11, 3.12) using a matrix strategy so we make sure code works across different environments.
+We use caching for `uv` dependencies to speed up CI runs cached runs complete in under 2 minutes versus 5+ minutes uncaced. We test across multiple operating systems (Ubuntu, Windows, macOS) and Python versions (3.11, 3.12) using a matrix strategy so we make sure code works across different environments. The workflows ensured we could have confidence in our code during development as we could catch code that led to failing tests and lateron also failing training or docker image building. An example of our test workflow can be seen here https://github.com/MLOps-Group-40-2026/exam_project/actions/workflows/tests.yaml
+
 
 ## Running code and tracking experiments
 
@@ -396,9 +397,9 @@ Images are automatically built and pushed to artifact registry via github action
 >
 > Answer:
 
-Debugging methods varied by team member. Some used IDEs debugger with breakpoints while others relied on print statements or `loguru` logging. As most issues where related to cloud debugging (Vertex AI or cloud run) we heavily used GCPs cloud logging to view container logs and identify issues.
+Debugging methods varied by team member. Some used IDEs debugger with breakpoints while others relied on print statements or logging. As most issues where related to cloud debugging (Vertex AI or cloud run) we heavily used GCPs cloud logging to view container logs and identify issues.
 
-We did not profile our code yet (pawans PR should have this).
+We did not profile our code yet (pawans PR should have this) this needs to be expanded upon.
 
 
 ## Working in the cloud
@@ -517,13 +518,13 @@ The training config (`vertex_train.yaml`) specifies the machine type (`n1-standa
 >
 > Answer:
 
-We wrote a FastAPI application for model inference (`src/coffee_leaf_classifier/api.py`). The API has three main endpoints:
+We wrote a FastAPI application for model inference (src/coffee_leaf_classifier/api.py). The API has three main endpoints
 
 - `GET /health`: Returns service health status
 - `GET /info`: Returns model metadata (classes, version)
 - `POST /predict`: Accepts an image file and returns disease classification with probabilities
 
-We added prometheus metrics instrumentation for monitoring (request latency, count, errors), structured logging with loguru. The model is loaded from GCS at startup and cached in memory for fast inference.
+We added prometheus metrics instrumentation for monitoring (request latency, count, errors), structured logging with loguru. The model is loaded from GCS at startup and cached in memory for fast inference. We also built a streamlit frontend (app.py) that communicates with the API. Input validation ensures only valid image files (jpg, png) are accepted, returning appropriate HTTP 400 errors for invalid requests.
 
 ### Question 24
 
