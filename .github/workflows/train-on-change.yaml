@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write  # Required for Workload Identity Federation
+      id-token: write
 
     steps:
       - name: Checkout code
@@ -43,7 +43,7 @@ jobs:
 
       - name: Log trigger information
         run: |
-          echo "🚀 Training triggered by changes in:"
+          echo "Training triggered by changes in:"
           echo "  Commit: ${{ github.sha }}"
           echo "  Author: ${{ github.actor }}"
           echo "  Message: ${{ github.event.head_commit.message }}"
@@ -57,5 +57,5 @@ jobs:
 
       - name: Log job submission
         run: |
-          echo "✅ Training job submitted to Vertex AI"
+          echo "Training job submitted to Vertex AI"
           echo "View jobs at: https://console.cloud.google.com/vertex-ai/training/custom-jobs?project=${{ env.PROJECT_ID }}"
