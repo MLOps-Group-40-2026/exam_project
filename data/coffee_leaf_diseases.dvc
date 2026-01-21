@@ -1,0 +1,6 @@
+outs:
+- md5: 68025315141b95af39d6b77e310024c0.dir
+  size: 1641935806
+  nfiles: 12
+  hash: md5
+  path: coffee_leaf_diseases
