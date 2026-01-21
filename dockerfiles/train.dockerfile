@@ -15,6 +15,12 @@ RUN uv sync --frozen --no-install-project
 COPY src src/
 COPY configs configs/
 
+# Copy DVC config and data pointer files for runtime dvc pull
+COPY .dvc .dvc/
+COPY data/coffee_leaf_diseases.dvc data/
+
 RUN uv sync --frozen
 
-ENTRYPOINT ["uv", "run", "src/coffee_leaf_classifier/train.py"]
+# Pull data from GCS at runtime (needs GCP credentials available on Vertex AI)
+# Use --no-scm since container doesn't have git repo
+ENTRYPOINT ["sh", "-c", "uv run dvc pull --no-scm data/coffee_leaf_diseases.dvc && uv run src/coffee_leaf_classifier/train.py"]
