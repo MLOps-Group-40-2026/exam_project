@@ -1,4 +1,5 @@
 [core]
     remote = gcs
+    no_scm = true
 ['remote "gcs"']
     url = gs://mlops-group-40-2026-dvc
