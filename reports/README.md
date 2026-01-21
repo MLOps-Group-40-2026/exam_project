@@ -98,7 +98,7 @@ will check the repositories and the code to verify your answers.
 ### Week 3
 
 * [X] Check how robust your model is towards data drifting (M27)
-* [] Deploy to the cloud a drift detection API (M27)
+* [ ] Deploy to the cloud a drift detection API (M27)
 * [X] Instrument your API with a couple of system metrics (M28)
 * [X] Setup cloud monitoring of your instrumented application (M28)
 * [X] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
