@@ -57,6 +57,10 @@ pip-delete-this-directory.txt
 htmlcov/
 .tox/
 .nox/
+
+# Drift detection report (too large for git)
+# TODO: reconsider storage
+reports/drift_report.html
 .coverage
 .coverage.*
 .cache
