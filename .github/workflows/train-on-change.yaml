@@ -1,0 +1,61 @@
+name: Trigger Training on Data/Model Changes
+
+# Trigger when data version, model code, or training config changes
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data/*.dvc'                          # DVC data version changes
+      - 'models/*.dvc'                        # DVC model version changes
+      - 'configs/model/**'                    # Model architecture config
+      - 'configs/training/**'                 # Training hyperparameters
+      - 'src/coffee_leaf_classifier/model.py' # Model code
+      - 'src/coffee_leaf_classifier/train.py' # Training code
+      - 'src/coffee_leaf_classifier/data.py'  # Data loading code
+  workflow_dispatch:  # Allow manual trigger
+
+env:
+  PROJECT_ID: mlops-group-40-2026
+  REGION: europe-west1
+  REGISTRY: europe-west1-docker.pkg.dev
+  REPOSITORY: ml-images
+
+jobs:
+  trigger-training:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # Required for Workload Identity Federation
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Log trigger information
+        run: |
+          echo "🚀 Training triggered by changes in:"
+          echo "  Commit: ${{ github.sha }}"
+          echo "  Author: ${{ github.actor }}"
+          echo "  Message: ${{ github.event.head_commit.message }}"
+
+      - name: Submit Vertex AI Training Job
+        run: |
+          gcloud ai custom-jobs create \
+            --region=${{ env.REGION }} \
+            --display-name="auto-train-${{ github.sha }}" \
+            --config=configs/vertex_train.yaml
+
+      - name: Log job submission
+        run: |
+          echo "✅ Training job submitted to Vertex AI"
+          echo "View jobs at: https://console.cloud.google.com/vertex-ai/training/custom-jobs?project=${{ env.PROJECT_ID }}"
