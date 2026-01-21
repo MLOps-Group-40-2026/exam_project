@@ -6,4 +6,7 @@ batch_size: 32
 learning_rate: 0.001
 
 device: "cpu"
-num_workers: 0
+num_workers: 4
+pin_memory: true
+persistent_workers: true
+prefetch_factor: 2
