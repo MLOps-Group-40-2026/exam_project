@@ -36,12 +36,34 @@ def train(cfg: DictConfig) -> None:
 
     batch_size = int(cfg.training.batch_size)
     num_workers = int(getattr(cfg.training, "num_workers", 0))
+    logger.info(f"Using DataLoader num_workers={num_workers}")
+
+    pin_memory = bool(getattr(cfg.training, "pin_memory", False))
+    persistent_workers = bool(getattr(cfg.training, "persistent_workers", False)) and num_workers > 0
+    prefetch_factor = int(getattr(cfg.training, "prefetch_factor", 2)) if num_workers > 0 else None
 
     train_ds = CoffeeLeafDataset("train")
     val_ds = CoffeeLeafDataset("validation")
 
-    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=num_workers)
-    val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False, num_workers=num_workers)
+    train_loader = DataLoader(
+        train_ds,
+        batch_size=batch_size,
+        shuffle=True,
+        num_workers=num_workers,
+        pin_memory=pin_memory,
+        persistent_workers=persistent_workers,
+        prefetch_factor=prefetch_factor,
+    )
+
+    val_loader = DataLoader(
+        val_ds,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=num_workers,
+        pin_memory=pin_memory,
+        persistent_workers=persistent_workers,
+        prefetch_factor=prefetch_factor,
+    )
 
     model = Model(
         num_classes=int(cfg.model.params.num_classes),
