@@ -133,7 +133,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
-s256475,
+s256475, s232477
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -167,7 +167,7 @@ frameworks
 >
 > Answer:
 
-UV
+We used uv for managing our dependencies. The list of dependencies was initialized by cookiecutter and extended throughout the course by adding the packages required to fulfill the checklist.
 
 ### Question 5
 
@@ -255,7 +255,7 @@ The total code coverage of our code is 76% which includes the main source module
 
 We made extensive use of branches and pull requests in our project. Each new feature or bug fix was developed on a dedicated branch. We created over 100 pull requests throughout the project with each PR requiring review before merging to main.
 
-Our workflow was to create a branch from main, then implement the feature, then push and open a PR, then wait for CI checks (tests, linting etc.) to pass, then get a code review from at least one team member, then merge. This prevented broken code from reaching the main branch and enabled parallel development. Githubs interface for PRs made easy to discuss changes, suggest improvements and track what each team member was working on. We also used PR descriptions to document what changed and why documenting the history of the project's progression.
+Our workflow was to create a branch from main, then implement the feature, then push and open a PR, then wait for CI checks (tests, linting etc.) to pass, then get a code review from at least one team member, then merge. This prevented broken code from reaching the main branch and enabled parallel development. Github's interface for PRs made easy to discuss changes, suggest improvements and track what each team member was working on. We also used PR descriptions to document what changed and why, documenting the history of the project's progression.
 
 ### Question 10
 
@@ -303,7 +303,7 @@ We organized our continuous integration into 6 github action workflows.
 
 6. **pre-commit-update.yaml**: Updates pre commit hooks weekly to keep dependencies current.
 
-We use caching for `uv` dependencies to speed up CI runs cached runs complete in under 2 minutes versus 5+ minutes uncaced. We test across multiple operating systems (Ubuntu, Windows, macOS) and Python versions (3.11, 3.12) using a matrix strategy so we make sure code works across different environments. The workflows ensured we could have confidence in our code during development as we could catch code that led to failing tests and lateron also failing training or docker image building. An example of our test workflow can be seen here https://github.com/MLOps-Group-40-2026/exam_project/actions/workflows/tests.yaml
+We use caching for `uv` dependencies to speed up CI runs cached runs complete in under 2 minutes versus 5+ minutes uncached. We test across multiple operating systems (Ubuntu, Windows, macOS) and Python versions (3.11, 3.12) using a matrix strategy so we make sure code works across different environments. The workflows ensured we could have confidence in our code during development as we could catch code that led to failing tests and lateron also failing training or docker image building. An example of our test workflow can be seen here https://github.com/MLOps-Group-40-2026/exam_project/actions/workflows/tests.yaml
 
 
 ## Running code and tracking experiments
@@ -712,7 +712,7 @@ The biggest challenges in our project were:
 **3. GCP**: Many operations failed silently or with hard to read errors due to missing IAM roles. Setting up WIF required configuration of service account permissions, workload identity pools and attribute mappings. Debugging any cloud related infrastructure issues in the pipeline was more challenging than anticipated and took a long time as docker images had to rebuilt and pushed and jobs had to be restarted.
 
 **4. Coordinating as a Team**: With multiple team members working on different features simultaneously we sometimes had merge conflicts or stepped on each other's changes. We improved by communicating more actively about who was working on what and using smaller more focused PRs. It was also a challenge keeping track of everything that was being worked what could be checked and what to work on next.
-We managed this github issues, where we tried to keep an overview of stuff to work on and its priority.
+We managed using github issues as a project planner, where we tried to keep an overview of stuff to work on and its priority.
 
 In general debugging infrastructure rather than code and the boundaries between the different steps in pipeline was really challenging and not something we had worked on before.
 
@@ -738,7 +738,7 @@ In general debugging infrastructure rather than code and the boundaries between 
 
 **Student sXXXXXX (Yarin)**: Initialized the cookiecutter project template and implemented the model architecture. Created the hyperparameter sweep configuration (W&B sweeps) and contributed model unit tests.
 
-**Student sXXXXXX (Andreas)**: Set up Prometheus API instrumentation for monitoring. Responsible for data and model development, DVC setup, and code reviews.
+**Student s232477 (Andreas)**: Initialized the group's Github organization and repository to ensure all members have admin access. Set up Prometheus API instrumentation for monitoring. Responsible for data and model development, DVC setup, and code reviews.
 
 **Student sXXXXXX (Pawan)**: Contributed to project planning and discussions.
 
