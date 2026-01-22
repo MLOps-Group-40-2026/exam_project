@@ -133,7 +133,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
-s256475, s232477, s256672, s260189
+s256475, s232477, s256672, s260189, s257193
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -345,7 +345,7 @@ PYTHONPATH=src uv run python -m coffee_leaf_classifier.train \
 >
 > Answer:
 
-For experiment reproducibility, we inserted random seeds and ensured that all experiment parameters were captured through hydra configurations. In addition, we used W&B to automatically log configuration values, metrics, and runtime metadata for every experiment,guaranteeing that all the information about the different runs are documented. Therefore, each experiment can be reproduced by combining the recorded configuration with the corresponding code version.
+For experiment reproducibility, we inserted random seeds and ensured that all experiment parameters were captured through hydra configurations files. Using this set up we secured that every experiment is defined by a specific configuration, avoiding setting hard-coded values. In addition, we used W&B to automatically log configuration values, metrics and runtime metadata for every code run,guaranteeing that all the information is documented. Thus, each run is uniquely identified and stored, allowing to trace back the exact configuration and ensuring that no information is lost during experimentation. Additionally, experiments can be executed using `uv run` enforcing a locked python environment, which in combination with Git version control, allows any experiment to be reproduced at a later time by simply checking out the corresponding commit, reusing the recorded configuration, and running the experiment in the same environment.
 
 ### Question 14
 
@@ -757,12 +757,12 @@ In general debugging infrastructure rather than code and the boundaries between 
 
 **Student s260189 (Lampros)**: Primary code reviewer and repository maintainer main reponsible for code reviews and approving pull requests. Implemented distributed data loading, hydra configuration templates, dataset unit tests, W&B logging integration, and setup the GCP alerts.
 
-**Student s256672 (Yarin)**: Initialized the cookiecutter project template and implemented the model architecture. Created the hyperparameter sweep configuration (W&B sweeps) and contributed model unit tests. Contributed to project planning and discussions. Generative AI tools were mainly used for debugging assistance alongside the IDE, and overall brainstorming.
+**Student s256672 (Yarin)**: Initialized the cookiecutter project template and implemented the model architecture. Created the hyperparameter sweep configuration (W&B sweeps) and contributed model unit tests. Contributed to project planning and discussions.
 
 **Student s232477 (Andreas)**: Initialized the group's Github organization and repository to ensure all members have admin access. Set up Prometheus API instrumentation for monitoring. Responsible for data and model development, DVC setup, and code reviews.
 
-**Student sXXXXXX (Pawan)**: Contributed to project planning and discussions.
+**Student s257193 (Pawan)**: Contributed to project planning and discussions, as well as review PR to ensure undisturbed workflow.
 
 All members participated through our PR based workflow. We used github copilot to debug infrastructure issues (GCP IAM, docker, github actions) and to generate boilerplate code, which significantly accelerated development.
 
-Generative AI tools were used for mainly explanatory purposes and late code review and refining.
+Generative AI tools were mainly used for explanatory purposes and brainstorming, as well as code review and refining.
