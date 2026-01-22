@@ -362,7 +362,9 @@ For experiment reproducibility, we inserted random seeds and ensured that all ex
 >
 > Answer:
 
-W&B here
+![W&B Training Dashboard](figures/wandb_training.png)
+
+TODO: Write 200-300 words about what metrics are tracked and why they are important.
 
 ### Question 15
 
@@ -460,12 +462,14 @@ For cloud run we let GCP auto-scale instances based on incoming request load. Th
 >
 > Answer:
 
-![GCS Bucket Contents](figures/gcs_bucket.png)
+![GCS Bucket Model](figures/gcs_bucket_model.png)
+
+![GCS Bucket Versioned Data](figures/gcs_bucket_versioned_data.png)
 
 Our GCS bucket `mlops-group-40-2026-dvc` contains:
-- `data/`: DVC-tracked coffee leaf disease dataset
-- `models/`: Trained model checkpoints
-- `predictions/`: Logged predictions from the API for drift monitoring
+- `files/`: DVC remote cache storing the versioned coffee leaf disease dataset
+- `models/`: Trained model checkpoints uploaded after training
+- `predictions/`: Logged predictions from the API (JSON files with timestamps) for drift monitoring
 
 ### Question 20
 
@@ -474,7 +478,9 @@ Our GCS bucket `mlops-group-40-2026-dvc` contains:
 >
 > Answer:
 
-![Artifact Registry](figures/artifact_registry.png)
+![Train Image Registry](figures/train_registry.png)
+
+![API Image Registry](figures/api_registry.png)
 
 Our Artifact Registry repository `ml-images` in `europe-west1` contains two Docker images
 - `train`: Training container with PyTorch, DVC, and training scripts
@@ -561,6 +567,8 @@ curl -X POST -F "file=@coffee_leaf.jpg" https://coffee-api-485178670977.europe-w
 
 The response contains the predicted disease class and confidence probabilities for all classes. Cloud run auto scales from 0 to more instances based on incoming traffic. When idle it scales to zero to minimize costs.
 
+![Cloud Run Deployment](figures/cloud_run.png)
+
 ### Question 25
 
 > **Did you perform any unit testing and load testing of your API? If yes, explain how you did it and what results for**
@@ -611,6 +619,10 @@ Yes, we implemented comprehensive monitoring for our deployed API:
 
 This monitoring helps us to ensure the API is healthy in a production scenario and allows for detection of issues before users are significantly impacted.
 
+![Cloud Run Metrics](figures/cloud_run_metrics2.png)
+
+![API Monitoring Dashboard](figures/api_monitoring.png)
+
 ## Overall discussion of project
 
 > In the following section we would like you to think about the general structure of your project.
@@ -635,6 +647,8 @@ We estimate our group used approximately $(check number) in GCP credits across a
 3. **Cloud Storage**: Negligible cost for our ~500MB dataset.
 
 Working in the cloud was initially challenging due to the learning curve with permissions, service accounts, and the many interconnected GCP services. Setting up CI/CD integration with github actions  took some trial and error. Once configured the cloud infrastructure proved very good for efficiency as we could run GPU training without local hardware, deploy APIs with automatic scaling and collaborate with the shared cloud resources. In retrospect we should have begun automating a lot of the cloud stuff with CI/CD and actions earlier as we spent quite some time on gcloud commands.
+
+![GCP Alerting](figures/alerts.png)
 
 ### Question 28
 
