@@ -74,6 +74,7 @@ def train(cfg: DictConfig) -> None:
     if cfg.experiment.logging.enable and cfg.experiment.logging.wandb.enable:
         wandb_logger = WandbLogger(
             project=cfg.experiment.logging.wandb.project,
+            entity=cfg.experiment.logging.wandb.get("entity"),
             name=cfg.experiment.name,
             tags=list(cfg.experiment.logging.wandb.tags),
             offline=str(cfg.experiment.logging.wandb.mode).lower() == "offline",

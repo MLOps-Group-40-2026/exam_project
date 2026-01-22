@@ -52,10 +52,16 @@ jobs:
         env:
           WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
         run: |
-          # Create temp config with WANDB key injected
-          cat configs/vertex_train.yaml > /tmp/vertex_train.yaml
-          echo "      - name: WANDB_API_KEY" >> /tmp/vertex_train.yaml
-          echo "        value: \"${WANDB_API_KEY}\"" >> /tmp/vertex_train.yaml
+          # Inject WANDB_API_KEY into vertex config after GCS_MODEL_PATH entry
+          awk -v key="$WANDB_API_KEY" '
+            /value: gs:\/\/mlops-group-40-2026-dvc\/models\/model.ckpt/ {
+              print
+              print "      - name: WANDB_API_KEY"
+              print "        value: \"" key "\""
+              next
+            }
+            {print}
+          ' configs/vertex_train.yaml > /tmp/vertex_train.yaml
 
           gcloud ai custom-jobs create \
             --region=${{ env.REGION }} \
