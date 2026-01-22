@@ -231,7 +231,9 @@ Compliance with these concepts in larger projects helps to ensure consistency ac
 >
 > Answer:
 
-In total, we have implemented 21 tests across three test files. We test the API endpoints (`/health`, `/info`, `/predict`) to ensure the inference service works correctly and handles errors gracefully (invalid input, missing files). We test the data loading pipeline to verify dataset structure, image preprocessing, and correct tensor shapes. We also test the model's forward pass to ensure correct output dimensions and that prediction probabilities sum to 1.
+In total, we have implemented 21 tests across three test files. We test the API endpoints (`/health`, `/info`, `/predict`) to ensure the inference service works correctly and handles errors gracefully (invalid input, missing files). We test the data loading pipeline to verify dataset structure, image preprocessing, and correct tensor shapes using monkeypatched mock data. We also test the model's forward pass to ensure correct output dimensions and that prediction probabilities sum to 1.
+
+Our tests are fairly surface level focusing on basic validation. The API tests load the real model rather than using mocks and we lack integration tests that verify the full data→model→API flow. More rigorous testing would better isolate components.
 
 ### Question 8
 
@@ -607,13 +609,13 @@ We performed both unit testing and load testing of our API.
 
 For **unit testing**, we use pytest with 12 tests covering the API endpoints. Tests verify correct responses for valid inputs, proper error handling for invalid files, and health check functionality. These run automatically in CI on every PR.
 
-For **load testing**, we used Locust. Our load test simulates users uploading images to the `/predict` endpoint. Results showed:
-- The API handles ~20-30 requests/second on a single cloud run instance
-- Average response time: ~200-300ms per prediction
-- Cloud run auto scaled to multiple instances under heavy load
-- No failures under sustained load of 50 concurrent users
+For **load testing**, we used Locust. Our load test (`tests/locustfile.py`) simulates users hitting the `/health`, `/info`, and `/predict` endpoints with weighted task distribution. Running with 10 concurrent users for 60 seconds, results showed:
+- ~4.8 requests/second aggregate throughput
+- Average response time 48ms (health: 44ms, predict: 65ms)
+- 0% HTTP failure rate (no connection errors or timeouts) across 286 requests
+- Cold start latency ~25-28 seconds when Cloud Run scales from zero
 
-The load test runs automatically in github actions after docker builds complete, ensuring we catch performance regressions.
+Note that 10 concurrent users is relatively low for serious load testing and we used synthetic test images rather than real data. Due to time constraints we did not perform more extensive stress testing to find the breaking point. The load test workflow triggers automatically via `workflow_run` after docker builds complete.
 
 ### Question 26
 
