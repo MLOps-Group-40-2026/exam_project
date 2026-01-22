@@ -15,6 +15,7 @@ logging:
   level: "INFO"
   wandb:
     enable: true
-    project: "coffee_leaf_classifier"
+    project: "coffee_leaf_diseases"
+    entity: "mlops-group-40"
     tags: ["baseline"]
     mode: "online"
