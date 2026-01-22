@@ -109,10 +109,10 @@ will check the repositories and the code to verify your answers.
 ### Extra
 
 * [X] Write some documentation for your application (M32)
-* [dont_have_yet_maybe_if_time] Publish the documentation to GitHub Pages (M32)
-* [kinda_but_not_really_missing_automation] Revisit your initial project description. Did the project turn out as you wanted?
-* [soon_necessary_for_report] Create an architectural diagram over your MLOps pipeline
-* [this_might_not_be_true] Make sure all group members have an understanding about all parts of the project
+* [ ] Publish the documentation to GitHub Pages (M32)
+* [?] Revisit your initial project description. Did the project turn out as you wanted?
+* [S] Create an architectural diagram over your MLOps pipeline
+* [?] Make sure all group members have an understanding about all parts of the project
 * [X] Uploaded all your code to GitHub
 
 ## Group information
