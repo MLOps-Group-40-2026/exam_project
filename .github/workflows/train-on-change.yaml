@@ -49,11 +49,18 @@ jobs:
           echo "  Message: ${{ github.event.head_commit.message }}"
 
       - name: Submit Vertex AI Training Job
+        env:
+          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
         run: |
+          # Create temp config with WANDB key injected
+          cat configs/vertex_train.yaml > /tmp/vertex_train.yaml
+          echo "      - name: WANDB_API_KEY" >> /tmp/vertex_train.yaml
+          echo "        value: \"${WANDB_API_KEY}\"" >> /tmp/vertex_train.yaml
+
           gcloud ai custom-jobs create \
             --region=${{ env.REGION }} \
             --display-name="auto-train-${{ github.sha }}" \
-            --config=configs/vertex_train.yaml
+            --config=/tmp/vertex_train.yaml
 
       - name: Log job submission
         run: |
