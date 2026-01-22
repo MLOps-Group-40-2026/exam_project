@@ -173,7 +173,9 @@ These packages helped streamline our pipeline even though we did not intentional
 >
 > Answer:
 
-We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and extended throughout the course by adding the packages required to fulfill the checklist. Dependences were defined and locked using pyproject.toml and uv.lock. That allows any user to recreate the exact environment via uv sync. Additionally, docker was used to package the same locked environment, ensuring identical code behaviour on different machines and in GPC.
+We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and extended throughout the course by adding the packages required to fulfill the checklist. Dependencies were defined in pyproject.toml and locked using uv.lock, which pinned the exact versions of all packages. This allows any user to recreate the exact environment via uv sync.
+
+For someone new to to get started on the project, they would need to first clone the repository, install uv and run `uv sync` to install all dependencies. Additionally, Docker was used to package the same locked environment, ensuring identical code behavior on different machines and in GCP. Our Dockerfiles run `uv sync --frozen` to install the exact same versions in containers as locally.
 
 ### Question 5
 
@@ -208,7 +210,7 @@ We mostly followed the original template that was provided, as it did not seem n
 
 We used `ruff` for both linting and formatting our code, configured with a line length of 120 characters. `ruff` is integrated into our CI pipeline and runs on every pull request. We also set up `pre-commit` hooks that automatically run `ruff` (with auto-fix) and checks for proper formatting and large files before each commit.
 
-For typing we use python type..... Documentation follows google style docstrings and we generate API documentation using mkdocs with the mkdocstrings plugin.
+For typing we use Python type hints in function signatures where it made sense, though coverage is not complete. We did not set up a dedicated documentation generator but added docstrings to key functions following a simple style.
 
 Compliance with these concepts in larger projects helps to ensure consistency across multiple contributors, avoiding extensive code differences and a messy resulting code environment. Aditionally, following code rules allows ealry bug catching, e.g. early recognition of typo errors or undefined variables. In general, it creates a codebase that is easier to understand and maintain. Automated formatting also eliminates pointless style debates in code reviews, allowing the workflow to focus on the code content.
 
@@ -351,7 +353,9 @@ PYTHONPATH=src uv run python -m coffee_leaf_classifier.train \
 >
 > Answer:
 
-For experiment reproducibility, we inserted random seeds and ensured that all experiment parameters were captured through hydra configurations. In addition, we used W&B to automatically log configuration values, metrics, and runtime metadata for every experiment,guaranteeing that all the information about the different runs are documented. Therefore, each experiment can be reproduced by combining the recorded configuration with the corresponding code version.
+For experiment reproducibility, we set a fixed random seed in our Hydra configuration (`experiment.seed: 13`) which is used to ensure deterministic behavior across runs. All experiment parameters including learning rate, batch size, and model architecture are captured in the configuration files and can be overridden via command line.
+
+We used W&B to automatically log these configuration values alongside metrics and runtime metadata for every experiment, guaranteeing that all the information about different runs is documented. Therefore, to reproduce any experiment one would retrieve the logged configuration from W&B and run training with the same parameters and code version. The combination of version controlled configs, fixed seeds, and W&B logging creates a trail for reproducibility.
 
 ### Question 14
 
