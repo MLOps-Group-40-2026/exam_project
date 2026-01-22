@@ -687,11 +687,15 @@ Working in the cloud was initially challenging due to the learning curve with pe
 
 We implemented several extra features:
 
-1. **Streamlit Frontend** A very simple web UI (`app.py`) where users can upload coffee leaf images and see predictions with confidence scores visualized as bar charts.
+1. **Streamlit Frontend**: A simple web UI (`app.py`) where users can upload coffee leaf images and see predictions with confidence scores. The frontend runs locally and connects to our Cloud Run API for inference. (Note predictions on arbitrary images from google showed near uniform distributions, but as model accuracy was outside our course scope we focused on building the MLOps pipeline. Though this is obviously not ideal).
 
-2. **Data Drift Monitoring**: We created a drift detection script (`drift_detection.py`) using evidently that extracts image features (brightness, contrast, RGB means) and compares prediction distributions against a baseline. We did not have time to implement full robustness testing (evaluating model accuracy on perturbed/augmented images) and did not automate the part that was done with cloud scheduler. It was also not deployed as a cloud API relevant checklist items are unchecked as we sadly didnt end up with a meaningful implementation. It can be run manually via CLI to generate HTML reports.
+![Streamlit Frontend - Upload](figures/frontend1.png)
 
-3. **Prediction Logging**: Every API prediction is logged to GCS with metadata (timestamp, predicted class, confidence). This creates an audit trail and could enable future automated drift analysis if connected to Cloud Scheduler.
+![Streamlit Frontend - Prediction](figures/frontend2.png)
+
+2. **Data Drift Monitoring**: We created a drift detection script (`drift_detection.py`) using evidently that extracts image features and compares prediction distributions against a baseline. It was not deployed as a cloud API (checklist items unchecked) but can be run manually via CLI to generate HTML reports.
+
+3. **Prediction Logging**: Every API prediction is logged to GCS with metadata (timestamp, predicted class, confidence) for audit trails and potential drift analysis.
 
 4. **Automated Training Triggers**: CI/CD workflow that automatically submits Vertex AI training jobs when data or config files change.
 
@@ -731,7 +735,7 @@ Vertex AI pulls the training Docker image from Artifact Registry, provisions a G
 Cloud run hosts our FastAPI inference API. At startup it downloads the latest model from GCS. Users (or the Streamlit frontend) send images to the `/predict` endpoint. The API returns predictions and logs them to GCS for drift monitoring. Prometheus metrics are scraped by cloud monitoring, which powers our dashboard and alerting.
 
 This architecture enables reproducible experiments, automated training, and scalable serving with minimal manual intervention. Several features we wanted to add but could not due to time constraints.
-Ideally we would have orchestrated the flow so that we restart the cloud run FastAPI when a new model is added to GCS, then we would run the load test on the new model and run drift detection, which then ends quielty if no drift is detected or does some sort of alert of triggers a retrain if drift is detected.
+Ideally we would have orchestrated the flow so that we restart the cloud run FastAPI when a new model is added to GCS, then we would run the load test on the new model and run drift detection, which then ends quielty if no drift is detected or does some sort of alert of triggers a retrain if drift is detected. We also would have liked to deploy a separate cloud run service (with related CI/CD) hosting the frontend.
 
 ### Question 30
 
