@@ -187,3 +187,4 @@ outputs/
 # W&B
 wandb/
 checkpoints/
+lightning_logs/

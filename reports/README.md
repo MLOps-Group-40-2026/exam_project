@@ -133,7 +133,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
-s256475, s232477, s256672
+s256475, s232477, s256672, s260189
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -167,7 +167,7 @@ frameworks
 >
 > Answer:
 
-We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and extended throughout the course by adding the packages required to fulfill the checklist.
+We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and extended throughout the course by adding the packages required to fulfill the checklist. Dependences were defined and locked using pyproject.toml and uv.lock. That allows any user to recreate the exact environment via uv sync. Additionally, docker was used to package the same locked environment, ensuring identical code behaviour on different machines and in GPC.
 
 ### Question 5
 
@@ -185,7 +185,7 @@ We used the uv package manager for managing our dependencies. The list of depend
 
 We initialized our project using the MLOps cookiecutter template, as provided in M6 on code structure. The main source code lives in `src/coffee_leaf_classifier/` where we filled out `data.py`, `model.py`, `train.py` , `api.py`, and `app.py`. The `tests/` folder contains unit tests for data, model, and API components.
 
-I dont remember how cookiecutter is by default or if we added anything this needs to be chekced.
+I don't remember how cookiecutter is by default or if we added  anything this needs to be chekced. Yarin might help here.
 
 ### Question 6
 
@@ -204,7 +204,7 @@ We used `ruff` for both linting and formatting our code, configured with a line 
 
 For typing we use python type..... Documentation follows google style docstrings and we generate API documentation using mkdocs with the mkdocstrings plugin.
 
-These concepts matter in larger projects because they ensure consistency across multiple contributors as it will be messy if multiple people maintain the code differently. Also, it allows for catching bugs early from stuff like type errors or undefined variables. In general, the codebase is easier to understand and maintain. Automated formatting also eliminates pointless style debates in code reviews so the team focus on logic.
+Compliance with these concepts in larger projects helps to ensure consistency across multiple contributors, avoiding extensive code differences and a messy resulting code environment. Aditionally, following code rules allows ealry bug catching, e.g. early recognition of typo errors or undefined variables. In general, it creates a codebase that is easier to understand and maintain. Automated formatting also eliminates pointless style debates in code reviews, allowing the workflow to focus on the code content.
 
 ## Version control
 
@@ -223,7 +223,7 @@ These concepts matter in larger projects because they ensure consistency across 
 >
 > Answer:
 
-In total we have implemented 21 tests across three test files. We test the API endpoints (`/health`, `/info`, `/predict`) to ensure the inference service works correctly and handles errors gracefully (invalid input, missing files). We test the data loading pipeline to verify dataset structure, image preprocessing, and correct tensor shapes. We also test the model's forward pass to ensure correct output dimensions and that prediction probabilities sum to 1.
+In total, we have implemented 21 tests across three test files. We test the API endpoints (`/health`, `/info`, `/predict`) to ensure the inference service works correctly and handles errors gracefully (invalid input, missing files). We test the data loading pipeline to verify dataset structure, image preprocessing, and correct tensor shapes. We also test the model's forward pass to ensure correct output dimensions and that prediction probabilities sum to 1.
 
 ### Question 8
 
@@ -255,7 +255,7 @@ The total code coverage of our code is 76% which includes the main source module
 
 We made extensive use of branches and pull requests in our project. Each new feature or bug fix was developed on a dedicated branch. We created over 100 pull requests throughout the project with each PR requiring review before merging to main.
 
-Our workflow was to create a branch from main, then implement the feature, then push and open a PR, then wait for CI checks (tests, linting etc.) to pass, then get a code review from at least one team member, then merge. This prevented broken code from reaching the main branch and enabled parallel development. Github's interface for PRs made easy to discuss changes, suggest improvements and track what each team member was working on. We also used PR descriptions to document what changed and why, documenting the history of the project's progression.
+Our workflow was to create a branch from main, implement the feature, push and open a PR, wait for CI checks (tests, linting etc.) to pass, then get a code review from at least one team member and finally merge. This prevented broken code from reaching the main branch and enabled parallel development. Github's interface for PRs made easy to discuss changes, suggest improvements and track what each team member was working on. We also used PR descriptions to document what changed and why, documenting the history of the project's progression.
 
 ### Question 10
 
@@ -272,7 +272,7 @@ Our workflow was to create a branch from main, then implement the feature, then 
 
 We used DVC for managing both our dataset and trained model checkpoints. The coffee leaf disease dataset is stored in GCS bucket (`gs://mlops-group-40-2026-dvc/`) with DVC tracking files (`data/coffee_leaf_diseases.dvc`) committed to git. This allows team members to pull the exact same data version with dvc pull.
 
-DVC improved our project by keeping large binary files out of git while maintaining version control. If we update the dataset or retrain a model we would only need to `dvc add` the new files and commit the updated `.dvc` files. This creates a clear history of data versions linked to code versions. Our training docker container runs `dvc pull` at runtime to fetch the correct data version and the data loading code has a fallback if DVC data isnt available locally then it just downloads directly from HuggingFace. This made our pipeline work both in cloud training (Vertex AI with DVC) and local development.
+DVC improved our project by keeping large binary files out of git while maintaining version control. If we update the dataset or retrain a model we would only need to `dvc add` the new files and commit the updated `.dvc` files. This creates a clear history of data versions linked to code versions. Our training docker container runs `dvc pull` at runtime to fetch the correct data version and the data loading code has a fallback if DVC data is not available locally. Then, it just downloads directly from HuggingFace. This made our pipeline work both in cloud training (Vertex AI with DVC) and local development.
 
 ### Question 11
 
@@ -293,11 +293,11 @@ We organized our continuous integration into 6 github action workflows.
 
 1. **tests.yaml**: Runs our pytest unit tests on every push and PR. Uses `uv` for fast dependency installation with caching enabled.
 
-2. **linting.yaml**: Runs ruff linter and formatter checks to enforce code style consistency. This catches style issues before theyre merged to main.
+2. **linting.yaml**: Runs ruff linter and formatter checks to enforce code style consistency. This catches style issues before they are merged to main.
 
 3. **docker-build.yaml**: Builds and pushes docker images to artifact registry on pushes to main. Builds both training and api images.
 
-4. **train-on-change.yaml**: We trigger vertex AI training when data files, model files or config files change.
+4. **train-on-change.yaml**: We trigger vertex AI training when data files, model files, or config files change.
 
 5. **load-test.yaml**: Runs Locust load tests against our deployed API after docker builds complete, triggered via `workflow_run`.
 
@@ -323,7 +323,14 @@ We use caching for `uv` dependencies to speed up CI runs cached runs complete in
 >
 > Answer:
 
-hydra and uv stuff?
+For the project, we configured our work using Hydra, which allows the creation of hierarchical and composable configuration files written in YAML. Thus, we separated configuration into three different groups (experiment, model, training), making it easy to define different setups without changing code. Additiopally, Hydra allows overriding parameters from the command line, enabling rapid experimentation unbounded from the initial configuration. Experiments were executed using uv run, ensuring they always run inside the exact same virtual environment, using either our original configurration or overridden parameters.
+
+To run locally:
+```bash
+PYTHONPATH=src uv run python -m coffee_leaf_classifier.train \
+  training.epochs=1 \
+  training.num_workers=0
+```
 
 ### Question 13
 
@@ -338,7 +345,7 @@ hydra and uv stuff?
 >
 > Answer:
 
-hydra and uv stuff?
+For experiment reproducibility, we inserted random seeds and ensured that all experiment parameters were captured through hydra configurations. In addition, we used W&B to automatically log configuration values, metrics, and runtime metadata for every experiment,guaranteeing that all the information about the different runs are documented. Therefore, each experiment can be reproduced by combining the recorded configuration with the corresponding code version.
 
 ### Question 14
 
@@ -567,7 +574,7 @@ The response contains the predicted disease class and confidence probabilities f
 >
 > Answer:
 
-Yes, we performed both unit testing and load testing of our API.
+We performed both unit testing and load testing of our API.
 
 For **unit testing**, we use pytest with 12 tests covering the API endpoints. Tests verify correct responses for valid inputs, proper error handling for invalid files, and health check functionality. These run automatically in CI on every PR.
 
@@ -688,7 +695,7 @@ Vertex AI pulls the training Docker image from Artifact Registry, provisions a G
 **Serving Flow**
 Cloud run hosts our FastAPI inference API. At startup it downloads the latest model from GCS. Users (or the Streamlit frontend) send images to the `/predict` endpoint. The API returns predictions and logs them to GCS for drift monitoring. Prometheus metrics are scraped by cloud monitoring, which powers our dashboard and alerting.
 
-This architecture enables reproducible experiments, automated training, and scalable serving with minimal manual intervention. Several features we wanted to add but couldnt due to time constraints.
+This architecture enables reproducible experiments, automated training, and scalable serving with minimal manual intervention. Several features we wanted to add but could not due to time constraints.
 Ideally we would have orchestrated the flow so that we restart the cloud run FastAPI when a new model is added to GCS, then we would run the load test on the new model and run drift detection, which then ends quielty if no drift is detected or does some sort of alert of triggers a retrain if drift is detected.
 
 ### Question 30
@@ -734,7 +741,7 @@ In general debugging infrastructure rather than code and the boundaries between 
 
 **Student s256475 (Ulrik)**: Led infrastructure and MLOps pipeline development including streamlit frontend, cloud run API deployment, load testing with Locust, GCP Artifact Registry integration, DVC data versioning, github actions and general CI/CD workflows, Vertex AI cloud training, drift detection with evidently and prediction logging. Debugged containerized deployments and wrote documentation for relevant sections.
 
-**Student sXXXXXX (Lampros)**: Primary code reviewer and repository maintainer main reponsible for code reviews and approving pull requests. Implemented distributed data loading, hydra configuration templates, dataset unit tests, W&B logging integration, and setup the GCP alerts.
+**Student s260189 (Lampros)**: Primary code reviewer and repository maintainer main reponsible for code reviews and approving pull requests. Implemented distributed data loading, hydra configuration templates, dataset unit tests, W&B logging integration, and setup the GCP alerts.
 
 **Student s256672 (Yarin)**: Initialized the cookiecutter project template and implemented the model architecture. Created the hyperparameter sweep configuration (W&B sweeps) and contributed model unit tests. Contributed to project planning and discussions. Generative AI tools were mainly used for debugging assistance alongside the IDE, and overall brainstorming.
 
@@ -743,3 +750,5 @@ In general debugging infrastructure rather than code and the boundaries between 
 **Student sXXXXXX (Pawan)**: Contributed to project planning and discussions.
 
 All members participated through our PR based workflow. We used github copilot to debug infrastructure issues (GCP IAM, docker, github actions) and to generate boilerplate code, which significantly accelerated development.
+
+Generative AI tools were used for mainly explanatory purposes and late code review and refining.
