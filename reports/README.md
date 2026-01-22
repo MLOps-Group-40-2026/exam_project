@@ -421,9 +421,9 @@ Images are automatically built and pushed to artifact registry via github action
 >
 > Answer:
 
-Debugging methods varied by team member. Some used IDEs debugger with breakpoints while others relied on print statements or logging. As most issues where related to cloud debugging (Vertex AI or cloud run) we heavily used GCPs cloud logging to view container logs and identify issues.
+Debugging methods varied by team member. Some used IDEs debugger with breakpoints while others relied on print statements or logging. As most issues were related to cloud debugging (Vertex AI or Cloud Run) we heavily used GCP's Cloud Logging to view container logs and identify issues. For local development, VS Code's integrated debugger was useful for stepping through data loading and model code.
 
-We did not profile our code yet (pawans PR should have this) this needs to be expanded upon.
+We attempted to add PyTorch Profiler integration to identify bottlenecks in our training pipeline, but did not manage to get it merged in time due to team coordination issues near the deadline. If we had completed it would have helped to identify slow operations in the data loading or forward pass. Our code is far from perfect and our data loading could likely benefit from optimization, but we prioritized getting the full pipeline working start to end over fine tuning performance and didnt want to introduce potential issues near the end of the project.
 
 
 ## Working in the cloud
