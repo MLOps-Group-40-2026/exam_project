@@ -167,7 +167,9 @@ frameworks
 >
 > Answer:
 
-We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and extended throughout the course by adding the packages required to fulfill the checklist. Dependences were defined and locked using pyproject.toml and uv.lock. That allows any user to recreate the exact environment via uv sync. Additionally, docker was used to package the same locked environment, ensuring identical code behaviour on different machines and in GPC.
+We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and was extended throughout the course by adding the packages required to fulfill the project's checklist. Dependencies were defined and locked using the `pyproject.toml` and `uv.lock` files. That allows any user to recreate the exact environment via the `uv sync` command. Additionally, docker was used to package the same locked environment, ensuring identical code behaviour on different machines and in GPC.
+Using the uv package manager proved to be much more efficient than using the traditional `pip` with the `requirements.txt` and `requirements_dev.txt` files, since all project contributors could easily add and remove dependencies and grouping them (for instance, defining development dependencies) without breaking additional packages. The way uv handles dependency resolution also turned out to be very useful when (in some cases) certain packages version couldn't work with other packages.
+
 
 ### Question 5
 
@@ -345,7 +347,9 @@ PYTHONPATH=src uv run python -m coffee_leaf_classifier.train \
 >
 > Answer:
 
-For experiment reproducibility, we inserted random seeds and ensured that all experiment parameters were captured through hydra configurations. In addition, we used W&B to automatically log configuration values, metrics, and runtime metadata for every experiment,guaranteeing that all the information about the different runs are documented. Therefore, each experiment can be reproduced by combining the recorded configuration with the corresponding code version.
+For experiment reproducibility, we inserted random seeds and ensured that all experiment parameters were captured through hydra configurations. In addition, we used W&B to automatically log configuration values, metrics, and runtime metadata for every experiment, ensuring that all the information about the different runs are documented. Therefore, each experiment can be reproduced by combining the recorded configuration with the corresponding code version.
+Using multiple configuration files was a bit confusing to begin with, but it later became much more convenient to have all the related parameters in one place and separated from other parameters - for example, the training parameters are all located in the `config/training/default.yaml` file and are separated from the model and experiments parameters.
+
 
 ### Question 14
 
@@ -362,7 +366,9 @@ For experiment reproducibility, we inserted random seeds and ensured that all ex
 >
 > Answer:
 
-W&B here
+![W&B Training Dashboard](figures/wandb_training.png)
+
+As can be seen in the screenshot above, we use the W&B framework to track experiments and evaluate the models we train. The metrics we track during training are the validation loss (`val_loss`), valdation accuracy (`val_acc`), and the training loss (`train_loss`). These are the standard metrics to track when training deep learning models in order to understand if the model converges or not. We can see an overall imprvement in all documented metrics without reaching a plateau, probably suggesting that further training of the model over more epochs can lead to even better results on the given dataset. As a central platform for logging, visualization and comparison, W&B helps us keep track of these metrics, which gives a clear picture of the model's learning progress.
 
 ### Question 15
 
@@ -460,12 +466,14 @@ For cloud run we let GCP auto-scale instances based on incoming request load. Th
 >
 > Answer:
 
-![GCS Bucket Contents](figures/gcs_bucket.png)
+![GCS Bucket Model](figures/gcs_bucket_model.png)
+
+![GCS Bucket Versioned Data](figures/gcs_bucket_versioned_data.png)
 
 Our GCS bucket `mlops-group-40-2026-dvc` contains:
-- `data/`: DVC-tracked coffee leaf disease dataset
-- `models/`: Trained model checkpoints
-- `predictions/`: Logged predictions from the API for drift monitoring
+- `files/`: DVC remote cache storing the versioned coffee leaf disease dataset
+- `models/`: Trained model checkpoints uploaded after training
+- `predictions/`: Logged predictions from the API (JSON files with timestamps) for drift monitoring
 
 ### Question 20
 
@@ -474,7 +482,9 @@ Our GCS bucket `mlops-group-40-2026-dvc` contains:
 >
 > Answer:
 
-![Artifact Registry](figures/artifact_registry.png)
+![Train Image Registry](figures/train_registry.png)
+
+![API Image Registry](figures/api_registry.png)
 
 Our Artifact Registry repository `ml-images` in `europe-west1` contains two Docker images
 - `train`: Training container with PyTorch, DVC, and training scripts
@@ -561,6 +571,8 @@ curl -X POST -F "file=@coffee_leaf.jpg" https://coffee-api-485178670977.europe-w
 
 The response contains the predicted disease class and confidence probabilities for all classes. Cloud run auto scales from 0 to more instances based on incoming traffic. When idle it scales to zero to minimize costs.
 
+![Cloud Run Deployment](figures/cloud_run.png)
+
 ### Question 25
 
 > **Did you perform any unit testing and load testing of your API? If yes, explain how you did it and what results for**
@@ -611,6 +623,10 @@ Yes, we implemented comprehensive monitoring for our deployed API:
 
 This monitoring helps us to ensure the API is healthy in a production scenario and allows for detection of issues before users are significantly impacted.
 
+![Cloud Run Metrics](figures/cloud_run_metrics2.png)
+
+![API Monitoring Dashboard](figures/api_monitoring.png)
+
 ## Overall discussion of project
 
 > In the following section we would like you to think about the general structure of your project.
@@ -635,6 +651,8 @@ We estimate our group used approximately $(check number) in GCP credits across a
 3. **Cloud Storage**: Negligible cost for our ~500MB dataset.
 
 Working in the cloud was initially challenging due to the learning curve with permissions, service accounts, and the many interconnected GCP services. Setting up CI/CD integration with github actions  took some trial and error. Once configured the cloud infrastructure proved very good for efficiency as we could run GPU training without local hardware, deploy APIs with automatic scaling and collaborate with the shared cloud resources. In retrospect we should have begun automating a lot of the cloud stuff with CI/CD and actions earlier as we spent quite some time on gcloud commands.
+
+![GCP Alerting](figures/alerts.png)
 
 ### Question 28
 
