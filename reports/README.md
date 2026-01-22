@@ -133,7 +133,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
-s256475, s232477
+s256475, s232477, s256672
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -167,7 +167,7 @@ frameworks
 >
 > Answer:
 
-We used uv for managing our dependencies. The list of dependencies was initialized by cookiecutter and extended throughout the course by adding the packages required to fulfill the checklist.
+We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and extended throughout the course by adding the packages required to fulfill the checklist.
 
 ### Question 5
 
@@ -183,9 +183,9 @@ We used uv for managing our dependencies. The list of dependencies was initializ
 >
 > Answer:
 
-We initialized our project using the MLOps cookiecutter template. The main source code lives in `src/coffee_leaf_classifier/` where we filled out `data.py`, `model.py`, `train.py` , `api.py`, and `app.py`. The `tests/` folder contains unit tests for data, model, and API components.
+We initialized our project using the MLOps cookiecutter template, as provided in M6 on code structure. The main source code lives in `src/coffee_leaf_classifier/` where we filled out `data.py`, `model.py`, `train.py` , `api.py`, and `app.py`. The `tests/` folder contains unit tests for data, model, and API components.
 
-I dont remember how cookiecutter is by default or if we added  anything this needs to be chekced.
+I dont remember how cookiecutter is by default or if we added anything this needs to be chekced.
 
 ### Question 6
 
@@ -200,11 +200,11 @@ I dont remember how cookiecutter is by default or if we added  anything this nee
 >
 > Answer:
 
-We used uff for both linting and formatting, configured with a line length of 120 characters. Ruff is integrated into our CI pipeline and runs on every pull request. We also set up `pre-commit` hooks that automatically run ruff (with auto-fix) and checks for proper formatting and large files before each commit.
+We used `ruff` for both linting and formatting our code, configured with a line length of 120 characters. `ruff` is integrated into our CI pipeline and runs on every pull request. We also set up `pre-commit` hooks that automatically run `ruff` (with auto-fix) and checks for proper formatting and large files before each commit.
 
 For typing we use python type..... Documentation follows google style docstrings and we generate API documentation using mkdocs with the mkdocstrings plugin.
 
-These concepts matter in larger projects because they ensure consistency across multiple contributors as it will be messy if multiple people maintain the code differently. Also allows for catching bugs early from stuff like type errors or undefined variables. In general the codebase is easier to understand and maintain. Automated formatting also eliminates pointless style debates in code reviews so the team focus on logic.
+These concepts matter in larger projects because they ensure consistency across multiple contributors as it will be messy if multiple people maintain the code differently. Also, it allows for catching bugs early from stuff like type errors or undefined variables. In general, the codebase is easier to understand and maintain. Automated formatting also eliminates pointless style debates in code reviews so the team focus on logic.
 
 ## Version control
 
@@ -223,7 +223,7 @@ These concepts matter in larger projects because they ensure consistency across 
 >
 > Answer:
 
-In total we have implemented 21 tests across three test files. We test the API endpoints (/health, /info, /predict) to ensure the inference service works correctly and handles errors gracefully (invalid input, missing files). We test the data loading pipeline to verify dataset structure, image preprocessing, and correct tensor shapes. We also test the model's forward pass to ensure correct output dimensions and that prediction probabilities sum to 1.
+In total we have implemented 21 tests across three test files. We test the API endpoints (`/health`, `/info`, `/predict`) to ensure the inference service works correctly and handles errors gracefully (invalid input, missing files). We test the data loading pipeline to verify dataset structure, image preprocessing, and correct tensor shapes. We also test the model's forward pass to ensure correct output dimensions and that prediction probabilities sum to 1.
 
 ### Question 8
 
@@ -238,7 +238,7 @@ In total we have implemented 21 tests across three test files. We test the API e
 >
 > Answer:
 
-The total code coverage of our code is 76% which includes the main source modules: api.py (81%), data.py (95%), and model.py (55%). We are not at 100% coverage and even if we were we would not fully trust it to be error free as code coverage only measures which lines of code are executed during tests amd not whether the tests actually verify correct behavior. A test could execute all lines without checking any assertions. Also coverage doesntt account for edge cases, race conditions, or integration issues between components. For example our model tests verify the forward pass works, but dont test all possible input combinations or error conditions. Bugs might occur at borders of systems (API/model, model/data) or under specific conditions not covered by unit tests. As such while high coverage is useful as a metric there should also be integration tests. manual testing and monitoring in production.
+The total code coverage of our code is 76% which includes the main source modules: `api.py` (81%), `data.py` (95%), and `model.py` (55%). We are not at 100% coverage and even if we were we would not fully trust it to be error free as code coverage only measures which lines of code are executed during tests amd not whether the tests actually verify correct behavior. A test could execute all lines without checking any assertions. Also coverage does not account for edge cases, race conditions, or integration issues between components. For example, our model tests verify the forward pass works, but dont test all possible input combinations or error conditions. Bugs might occur at borders of systems (API/model, model/data) or under specific conditions not covered by unit tests. As such, while high coverage is useful as a metric, there should also be integration tests, manual testing and monitoring in production.
 
 ### Question 9
 
@@ -736,7 +736,7 @@ In general debugging infrastructure rather than code and the boundaries between 
 
 **Student sXXXXXX (Lampros)**: Primary code reviewer and repository maintainer main reponsible for code reviews and approving pull requests. Implemented distributed data loading, hydra configuration templates, dataset unit tests, W&B logging integration, and setup the GCP alerts.
 
-**Student sXXXXXX (Yarin)**: Initialized the cookiecutter project template and implemented the model architecture. Created the hyperparameter sweep configuration (W&B sweeps) and contributed model unit tests.
+**Student s256672 (Yarin)**: Initialized the cookiecutter project template and implemented the model architecture. Created the hyperparameter sweep configuration (W&B sweeps) and contributed model unit tests. Contributed to project planning and discussions. Generative AI tools were mainly used for debugging assistance alongside the IDE, and overall brainstorming.
 
 **Student s232477 (Andreas)**: Initialized the group's Github organization and repository to ensure all members have admin access. Set up Prometheus API instrumentation for monitoring. Responsible for data and model development, DVC setup, and code reviews.
 
