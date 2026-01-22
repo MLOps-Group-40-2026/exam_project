@@ -531,6 +531,8 @@ We successfully trained our model in the cloud using Vertex AI. We chose Vertex 
 
 The training config (`vertex_train.yaml`) specifies the machine type (`n1-standard-4`), GPU (NVIDIA T4), and Docker image URI. Training runs take about 15-20 minutes for our dataset. We can also manually trigger training jobs from the command line for experimentation.
 
+![Vertex AI Training Jobs](figures/vertex_training.png)
+
 ## Deployment
 
 ### Question 23
