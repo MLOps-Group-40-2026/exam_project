@@ -17,4 +17,4 @@ logging:
     enable: true
     project: "coffee_leaf_classifier"
     tags: ["baseline"]
-    mode: "offline"
+    mode: "online"
