@@ -183,9 +183,9 @@ We used the uv package manager for managing our dependencies. The list of depend
 >
 > Answer:
 
-We initialized our project using the MLOps cookiecutter template, as provided in M6 on code structure. The main source code lives in `src/coffee_leaf_classifier/` where we filled out `data.py`, `model.py`, `train.py` , `api.py`, and `app.py`. The `tests/` folder contains unit tests for data, model, and API components.
+We initialized our project using the MLOps cookiecutter template, as provided in S2 - M6 on code structure. The main source code lives in `src/coffee_leaf_classifier/` where we filled out `data.py`, `model.py`, `train.py` , `api.py`, and `app.py`. The `tests/` folder contains unit tests for the data, model, and API components. The `config/` folder contains all the relevant configuration files, as were used alongside the W&B, Vertex and Hydra tools.
 
-I dont remember how cookiecutter is by default or if we added anything this needs to be chekced.
+We mostly followed the original template that was provided, as it did not seem necessary to introduce any changes to it in the context of our selected project. The additional directories that were added to our project (and are not a part of the original template) are tool-related, such add the `.dvc/`, `.pytest_cache/` and `.ruff_cache/` folders for the DVC, PyTest and ruff tools, respectively.
 
 ### Question 6
 
