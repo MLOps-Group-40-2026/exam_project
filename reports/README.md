@@ -68,7 +68,7 @@ will check the repositories and the code to verify your answers.
 * [X] Build the docker files locally and make sure they work as intended (M10)
 * [X] Write one or multiple configurations files for your experiments (M11)
 * [X] Used Hydra to load the configurations and manage your hyperparameters (M11)
-* [?] Use profiling to optimize your code (M12)
+* [] Use profiling to optimize your code (M12)
 * [X] Use logging to log important events in your code (M14)
 * [X] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
 * [X] Consider running a hyperparameter optimization sweep (M14)
@@ -109,10 +109,10 @@ will check the repositories and the code to verify your answers.
 ### Extra
 
 * [X] Write some documentation for your application (M32)
-* [soon] Publish the documentation to GitHub Pages (M32)
-* [?] Revisit your initial project description. Did the project turn out as you wanted?
-* [soon] Create an architectural diagram over your MLOps pipeline
-* [?] Make sure all group members have an understanding about all parts of the project
+* [dont_have_yet_maybe_if_time] Publish the documentation to GitHub Pages (M32)
+* [kinda_but_not_really_missing_automation] Revisit your initial project description. Did the project turn out as you wanted?
+* [soon_necessary_for_report] Create an architectural diagram over your MLOps pipeline
+* [this_might_not_be_true] Make sure all group members have an understanding about all parts of the project
 * [X] Uploaded all your code to GitHub
 
 ## Group information
@@ -147,7 +147,13 @@ s256475, s232477, s256672, s260189
 >
 > Answer:
 
-frameworks
+We must admit we did not explicitly plan to include a specific third-party package as we somehow overlooked this requirement. However reviewing our dependencies we did use packages that extend beyond what was directly covered in exercises:
+
+**`prometheus-fastapi-instrumentator`**: While the course covers `prometheus-client`, this specific package provides automatic one-line instrumentation for FastAPI applications. It exposes request latency histograms, request counts by endpoint/status code, and error rates without requiring manual metric definitions. This significantly simplified our monitoring setup compared to manually instrumenting each endpoint.
+
+**Hugging Face `datasets`**: The course mentions `transformers` but the `datasets` library is a separate package for dataset loading. We used `load_dataset` to download from Hugging Face Hub and `load_from_disk` for DVC-cached data. It handles train/validation/test splits automatically.
+
+These packages helped streamline our pipeline even though we did not intentionally select them for this requirement.
 
 ## Coding environment
 
@@ -167,7 +173,9 @@ frameworks
 >
 > Answer:
 
-We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and extended throughout the course by adding the packages required to fulfill the checklist. Dependences were defined and locked using pyproject.toml and uv.lock. That allows any user to recreate the exact environment via uv sync. Additionally, docker was used to package the same locked environment, ensuring identical code behaviour on different machines and in GPC.
+We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and extended throughout the course by adding the packages required to fulfill the checklist. Dependencies were defined and locked using `pyproject.toml` and `uv.lock`. That allows any user to recreate the exact environment via `uv sync`.
+
+For a new team member to get started, they would: (1) clone the repository, (2) install uv if not already installed, (3) run `uv sync` to install all locked dependencies, and (4) optionally pull DVC data with `dvc pull`. Additionally, Docker was used to package the same locked environment into containers, ensuring identical code behaviour on different machines, in CI/CD pipelines, and when deployed to GCP Cloud Run.
 
 ### Question 5
 
@@ -345,7 +353,11 @@ PYTHONPATH=src uv run python -m coffee_leaf_classifier.train \
 >
 > Answer:
 
-For experiment reproducibility, we inserted random seeds and ensured that all experiment parameters were captured through hydra configurations. In addition, we used W&B to automatically log configuration values, metrics, and runtime metadata for every experiment,guaranteeing that all the information about the different runs are documented. Therefore, each experiment can be reproduced by combining the recorded configuration with the corresponding code version.
+For experiment reproducibility, we inserted random seeds in both PyTorch and NumPy to ensure deterministic behavior. All experiment parameters are captured through Hydra configuration files (`configs/`), which define model architecture, training hyperparameters, and data paths. These configs are version controlled with git.
+
+In addition, we used W&B to automatically log configuration values, metrics, loss curves, and runtime metadata for every experiment, guaranteeing that all information about different runs is documented. W&B also tracks the git commit hash, linking each experiment to its exact code version.
+
+To reproduce an experiment, one would: (1) checkout the logged git commit, (2) copy the Hydra config from W&B or the `outputs/` folder, and (3) run training with that config. This combination of deterministic seeds, versioned configs, and comprehensive logging ensures experiments can be reliably reproduced.
 
 ### Question 14
 
@@ -364,7 +376,16 @@ For experiment reproducibility, we inserted random seeds and ensured that all ex
 
 ![W&B Training Dashboard](figures/wandb_training.png)
 
-TODO: Write 200-300 words about what metrics are tracked and why they are important.
+As shown in the screenshot we track the following metrics in weights and biases:
+
+- **val_loss**: Validation loss measured after each epoch. This is our primary metric for model selection - lower values indicate the model generalizes better to unseen data.
+- **train_loss**: Training loss over time. Comparing this with val_loss helps detect overfitting (when train_loss decreases but val_loss increases).
+- **val_acc**: Validation accuracy showing the percentage of correctly classified samples. This is an intuitive metric for understanding model performance.
+- **epoch**: Training progress tracker to correlate metrics with training duration.
+
+These metrics are good for monitoring training progress and making decisions about when to stop training or adjust hyperparameters.
+
+We should note that our W&B integration was initially misconfigured early in development. The project name in our config did not match where runs were being logged and we were accidentally running in offline mode due to human error. This meant we did not actively monitor experiments during most of our development process. When we moved over to vertex AI we also forgot to pass the API key. We discovered and fixed these issues near the end of the project. The integration now works correctly and automatically logs metrics when training runs via our CI/CD pipeline. In hindsight we should have verified the W&B setup was working properly from the start to better leverage experiment tracking during development.
 
 ### Question 15
 
@@ -406,10 +427,9 @@ Images are automatically built and pushed to artifact registry via github action
 >
 > Answer:
 
-Debugging methods varied by team member. Some used IDEs debugger with breakpoints while others relied on print statements or logging. As most issues where related to cloud debugging (Vertex AI or cloud run) we heavily used GCPs cloud logging to view container logs and identify issues.
+Debugging methods varied by team member. Some used IDE debuggers (VS Code, PyCharm) with breakpoints while others relied on print statements or loguru logging. As most issues were related to cloud debugging (Vertex AI jobs or Cloud Run containers), we heavily used GCP's Cloud Logging to view container logs and identify issues. This was essential for debugging Docker image builds and API deployment problems that only manifested in the cloud environment.
 
-We did not profile our code yet (pawans PR should have this) this needs to be expanded upon.
-
+Regarding profiling, we did not complete a systematic profiling pass of our code. This was on our roadmap but we ran out of time before the deadline. The training pipeline could likely benefit from profiling to identify bottlenecks in data loading or model forward passes. For future work, we would use PyTorch Profiler or cProfile to analyze performance.
 
 ## Working in the cloud
 
@@ -668,9 +688,9 @@ We implemented several extra features:
 
 1. **Streamlit Frontend** A very simple web UI (`app.py`) where users can upload coffee leaf images and see predictions with confidence scores visualized as bar charts.
 
-2. **Data Drift Detection**: Using evidently, we created a drift detection script (`drift_detection.py`) that compares incoming prediction data distributions against the training data baseline. This helps identify when the model may need retraining.
+2. **Data Drift Monitoring**: We created a drift detection script (`drift_detection.py`) using evidently that extracts image features (brightness, contrast, RGB means) and compares prediction distributions against a baseline. We did not have time to implement full robustness testing (evaluating model accuracy on perturbed/augmented images) and did not automate the part that was done with cloud scheduler. It was also not deployed as a cloud API relevant checklist items are unchecked as we sadly didnt end up with a meaningful implementation. It can be run manually via CLI to generate HTML reports.
 
-3. **Prediction Logging**: Every API prediction is logged to GCS with metadata (timestamp, predicted class, confidence). This creates an audit trail and enables offline drift analysis.
+3. **Prediction Logging**: Every API prediction is logged to GCS with metadata (timestamp, predicted class, confidence). This creates an audit trail and could enable future automated drift analysis if connected to Cloud Scheduler.
 
 4. **Automated Training Triggers**: CI/CD workflow that automatically submits Vertex AI training jobs when data or config files change.
 
