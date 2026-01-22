@@ -168,7 +168,7 @@ frameworks
 > Answer:
 
 We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and was extended throughout the course by adding the packages required to fulfill the project's checklist. Dependencies were defined and locked using the `pyproject.toml` and `uv.lock` files. That allows any user to recreate the exact environment via the `uv sync` command. Additionally, docker was used to package the same locked environment, ensuring identical code behaviour on different machines and in GPC.
-Using the uv package manager proved to be much more efficient than using the traditional `pip` with the `requirements.txt` and `requirements_dev.txt` files, since all project contributors could easily add and remove dependencies and grouping them (for instance, defining development dependencies) without breaking additional packages. The way uv handles dependency resolution also turned out to be very useful when (in some cases) certain packages version couldn't work with other packages.
+Using the uv package manager proved to be much more efficient than using the traditional `pip` with the `requirements.txt` and `requirements_dev.txt` files, since all project contributors could easily add and remove dependencies and grouping them (for instance, defining development dependencies) without breaking additional packages. The way uv handles dependency resolution also turned out to be very useful when (in some cases) certain package versions couldn't work with other packages.
 
 
 ### Question 5
