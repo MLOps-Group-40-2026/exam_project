@@ -52,68 +52,68 @@ will check the repositories and the code to verify your answers.
 
 ### Week 1
 
-* [ ] Create a git repository (M5)
-* [ ] Make sure that all team members have write access to the GitHub repository (M5)
-* [ ] Create a dedicated environment for you project to keep track of your packages (M2)
-* [ ] Create the initial file structure using cookiecutter with an appropriate template (M6)
-* [ ] Fill out the `data.py` file such that it downloads whatever data you need and preprocesses it (if necessary) (M6)
-* [ ] Add a model to `model.py` and a training procedure to `train.py` and get that running (M6)
-* [ ] Remember to fill out the `requirements.txt` and `requirements_dev.txt` file with whatever dependencies that you
+* [X] Create a git repository (M5)
+* [X] Make sure that all team members have write access to the GitHub repository (M5)
+* [X] Create a dedicated environment for you project to keep track of your packages (M2)
+* [X] Create the initial file structure using cookiecutter with an appropriate template (M6)
+* [X] Fill out the `data.py` file such that it downloads whatever data you need and preprocesses it (if necessary) (M6)
+* [X] Add a model to `model.py` and a training procedure to `train.py` and get that running (M6)
+* [X] Remember to fill out the `requirements.txt` and `requirements_dev.txt` file with whatever dependencies that you
     are using (M2+M6)
-* [ ] Remember to comply with good coding practices (`pep8`) while doing the project (M7)
-* [ ] Do a bit of code typing and remember to document essential parts of your code (M7)
-* [ ] Setup version control for your data or part of your data (M8)
-* [ ] Add command line interfaces and project commands to your code where it makes sense (M9)
-* [ ] Construct one or multiple docker files for your code (M10)
-* [ ] Build the docker files locally and make sure they work as intended (M10)
-* [ ] Write one or multiple configurations files for your experiments (M11)
-* [ ] Used Hydra to load the configurations and manage your hyperparameters (M11)
-* [ ] Use profiling to optimize your code (M12)
-* [ ] Use logging to log important events in your code (M14)
-* [ ] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
-* [ ] Consider running a hyperparameter optimization sweep (M14)
-* [ ] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15)
+* [X] Remember to comply with good coding practices (`pep8`) while doing the project (M7)
+* [X] Do a bit of code typing and remember to document essential parts of your code (M7)
+* [X] Setup version control for your data or part of your data (M8)
+* [X] Add command line interfaces and project commands to your code where it makes sense (M9)
+* [X] Construct one or multiple docker files for your code (M10)
+* [X] Build the docker files locally and make sure they work as intended (M10)
+* [X] Write one or multiple configurations files for your experiments (M11)
+* [X] Used Hydra to load the configurations and manage your hyperparameters (M11)
+* [?] Use profiling to optimize your code (M12)
+* [X] Use logging to log important events in your code (M14)
+* [X] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
+* [X] Consider running a hyperparameter optimization sweep (M14)
+* [X] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15)
 
 ### Week 2
 
-* [ ] Write unit tests related to the data part of your code (M16)
-* [ ] Write unit tests related to model construction and or model training (M16)
-* [ ] Calculate the code coverage (M16)
-* [ ] Get some continuous integration running on the GitHub repository (M17)
-* [ ] Add caching and multi-os/python/pytorch testing to your continuous integration (M17)
-* [ ] Add a linting step to your continuous integration (M17)
-* [ ] Add pre-commit hooks to your version control setup (M18)
-* [ ] Add a continues workflow that triggers when data changes (M19)
-* [ ] Add a continues workflow that triggers when changes to the model registry is made (M19)
-* [ ] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21)
-* [ ] Create a trigger workflow for automatically building your docker images (M21)
-* [ ] Get your model training in GCP using either the Engine or Vertex AI (M21)
-* [ ] Create a FastAPI application that can do inference using your model (M22)
-* [ ] Deploy your model in GCP using either Functions or Run as the backend (M23)
-* [ ] Write API tests for your application and setup continues integration for these (M24)
-* [ ] Load test your application (M24)
+* [X] Write unit tests related to the data part of your code (M16)
+* [X] Write unit tests related to model construction and or model training (M16)
+* [X] Calculate the code coverage (M16)
+* [X] Get some continuous integration running on the GitHub repository (M17)
+* [X] Add caching and multi-os/python/pytorch testing to your continuous integration (M17)
+* [X] Add a linting step to your continuous integration (M17)
+* [X] Add pre-commit hooks to your version control setup (M18)
+* [X] Add a continues workflow that triggers when data changes (M19)
+* [X] Add a continues workflow that triggers when changes to the model registry is made (M19)
+* [X] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21)
+* [X] Create a trigger workflow for automatically building your docker images (M21)
+* [X] Get your model training in GCP using either the Engine or Vertex AI (M21)
+* [X] Create a FastAPI application that can do inference using your model (M22)
+* [X] Deploy your model in GCP using either Functions or Run as the backend (M23)
+* [X] Write API tests for your application and setup continues integration for these (M24)
+* [X] Load test your application (M24)
 * [ ] Create a more specialized ML-deployment API using either ONNX or BentoML, or both (M25)
-* [ ] Create a frontend for your API (M26)
+* [X] Create a frontend for your API (M26)
 
 ### Week 3
 
-* [ ] Check how robust your model is towards data drifting (M27)
+* [X] Check how robust your model is towards data drifting (M27)
 * [ ] Deploy to the cloud a drift detection API (M27)
-* [ ] Instrument your API with a couple of system metrics (M28)
-* [ ] Setup cloud monitoring of your instrumented application (M28)
-* [ ] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
-* [ ] If applicable, optimize the performance of your data loading using distributed data loading (M29)
+* [X] Instrument your API with a couple of system metrics (M28)
+* [X] Setup cloud monitoring of your instrumented application (M28)
+* [X] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
+* [X] If applicable, optimize the performance of your data loading using distributed data loading (M29)
 * [ ] If applicable, optimize the performance of your training pipeline by using distributed training (M30)
 * [ ] Play around with quantization, compilation and pruning for you trained models to increase inference speed (M31)
 
 ### Extra
 
-* [ ] Write some documentation for your application (M32)
-* [ ] Publish the documentation to GitHub Pages (M32)
-* [ ] Revisit your initial project description. Did the project turn out as you wanted?
-* [ ] Create an architectural diagram over your MLOps pipeline
-* [ ] Make sure all group members have an understanding about all parts of the project
-* [ ] Uploaded all your code to GitHub
+* [X] Write some documentation for your application (M32)
+* [soon] Publish the documentation to GitHub Pages (M32)
+* [?] Revisit your initial project description. Did the project turn out as you wanted?
+* [soon] Create an architectural diagram over your MLOps pipeline
+* [?] Make sure all group members have an understanding about all parts of the project
+* [X] Uploaded all your code to GitHub
 
 ## Group information
 
@@ -122,7 +122,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 1 fill here ---
+40
 
 ### Question 2
 > **Enter the study number for each member in the group**
@@ -133,7 +133,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 2 fill here ---
+s256475,
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -147,7 +147,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 3 fill here ---
+frameworks
 
 ## Coding environment
 
@@ -167,7 +167,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 4 fill here ---
+UV
 
 ### Question 5
 
@@ -183,7 +183,9 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 5 fill here ---
+We initialized our project using the MLOps cookiecutter template. The main source code lives in `src/coffee_leaf_classifier/` where we filled out `data.py`, `model.py`, `train.py` , `api.py`, and `app.py`. The `tests/` folder contains unit tests for data, model, and API components.
+
+I dont remember how cookiecutter is by default or if we added  anything this needs to be chekced.
 
 ### Question 6
 
@@ -198,7 +200,11 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 6 fill here ---
+We used uff for both linting and formatting, configured with a line length of 120 characters. Ruff is integrated into our CI pipeline and runs on every pull request. We also set up `pre-commit` hooks that automatically run ruff (with auto-fix) and checks for proper formatting and large files before each commit.
+
+For typing we use python type..... Documentation follows google style docstrings and we generate API documentation using mkdocs with the mkdocstrings plugin.
+
+These concepts matter in larger projects because they ensure consistency across multiple contributors as it will be messy if multiple people maintain the code differently. Also allows for catching bugs early from stuff like type errors or undefined variables. In general the codebase is easier to understand and maintain. Automated formatting also eliminates pointless style debates in code reviews so the team focus on logic.
 
 ## Version control
 
@@ -217,7 +223,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 7 fill here ---
+In total we have implemented 21 tests across three test files. We test the API endpoints (/health, /info, /predict) to ensure the inference service works correctly and handles errors gracefully (invalid input, missing files). We test the data loading pipeline to verify dataset structure, image preprocessing, and correct tensor shapes. We also test the model's forward pass to ensure correct output dimensions and that prediction probabilities sum to 1.
 
 ### Question 8
 
@@ -232,7 +238,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 8 fill here ---
+The total code coverage of our code is 76% which includes the main source modules: api.py (81%), data.py (95%), and model.py (55%). We are not at 100% coverage and even if we were we would not fully trust it to be error free as code coverage only measures which lines of code are executed during tests amd not whether the tests actually verify correct behavior. A test could execute all lines without checking any assertions. Also coverage doesntt account for edge cases, race conditions, or integration issues between components. For example our model tests verify the forward pass works, but dont test all possible input combinations or error conditions. Bugs might occur at borders of systems (API/model, model/data) or under specific conditions not covered by unit tests. As such while high coverage is useful as a metric there should also be integration tests. manual testing and monitoring in production.
 
 ### Question 9
 
@@ -247,7 +253,9 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 9 fill here ---
+We made extensive use of branches and pull requests in our project. Each new feature or bug fix was developed on a dedicated branch. We created over 100 pull requests throughout the project with each PR requiring review before merging to main.
+
+Our workflow was to create a branch from main, then implement the feature, then push and open a PR, then wait for CI checks (tests, linting etc.) to pass, then get a code review from at least one team member, then merge. This prevented broken code from reaching the main branch and enabled parallel development. Githubs interface for PRs made easy to discuss changes, suggest improvements and track what each team member was working on. We also used PR descriptions to document what changed and why documenting the history of the project's progression.
 
 ### Question 10
 
@@ -262,7 +270,9 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 10 fill here ---
+We used DVC for managing both our dataset and trained model checkpoints. The coffee leaf disease dataset is stored in GCS bucket (`gs://mlops-group-40-2026-dvc/`) with DVC tracking files (`data/coffee_leaf_diseases.dvc`) committed to git. This allows team members to pull the exact same data version with dvc pull.
+
+DVC improved our project by keeping large binary files out of git while maintaining version control. If we update the dataset or retrain a model we would only need to `dvc add` the new files and commit the updated `.dvc` files. This creates a clear history of data versions linked to code versions. Our training docker container runs `dvc pull` at runtime to fetch the correct data version and the data loading code has a fallback if DVC data isnt available locally then it just downloads directly from HuggingFace. This made our pipeline work both in cloud training (Vertex AI with DVC) and local development.
 
 ### Question 11
 
@@ -279,7 +289,22 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 11 fill here ---
+We organized our continuous integration into 6 github action workflows.
+
+1. **tests.yaml**: Runs our pytest unit tests on every push and PR. Uses `uv` for fast dependency installation with caching enabled.
+
+2. **linting.yaml**: Runs ruff linter and formatter checks to enforce code style consistency. This catches style issues before theyre merged to main.
+
+3. **docker-build.yaml**: Builds and pushes docker images to artifact registry on pushes to main. Builds both training and api images.
+
+4. **train-on-change.yaml**: We trigger vertex AI training when data files, model files or config files change.
+
+5. **load-test.yaml**: Runs Locust load tests against our deployed API after docker builds complete, triggered via `workflow_run`.
+
+6. **pre-commit-update.yaml**: Updates pre commit hooks weekly to keep dependencies current.
+
+We use caching for `uv` dependencies to speed up CI runs cached runs complete in under 2 minutes versus 5+ minutes uncaced. We test across multiple operating systems (Ubuntu, Windows, macOS) and Python versions (3.11, 3.12) using a matrix strategy so we make sure code works across different environments. The workflows ensured we could have confidence in our code during development as we could catch code that led to failing tests and lateron also failing training or docker image building. An example of our test workflow can be seen here https://github.com/MLOps-Group-40-2026/exam_project/actions/workflows/tests.yaml
+
 
 ## Running code and tracking experiments
 
@@ -298,7 +323,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 12 fill here ---
+hydra and uv stuff?
 
 ### Question 13
 
@@ -313,7 +338,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 13 fill here ---
+hydra and uv stuff?
 
 ### Question 14
 
@@ -330,7 +355,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 14 fill here ---
+W&B here
 
 ### Question 15
 
@@ -345,7 +370,19 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 15 fill here ---
+We made two docker images for our project, one for training and one for API deployment.
+
+The training one contains all dependencies needed to train the model, including PyTorch, DVC, and W&B. It runs `dvc pull` at container startup to fetch data from GCS then executes the training script. This image is used by vertex AI for cloud training.
+
+The API one contains FastAPI, the model loading code, and prometheus instrumentation. At startup it downloads the trained model from GCS and serves predictions.
+
+To run locally:
+```bash
+docker build -f dockerfiles/api.dockerfile -t coffee-api .
+docker run -p 8000:8000 coffee-api
+```
+
+Images are automatically built and pushed to artifact registry via github actions on every push to main.
 
 ### Question 16
 
@@ -360,7 +397,10 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 16 fill here ---
+Debugging methods varied by team member. Some used IDEs debugger with breakpoints while others relied on print statements or logging. As most issues where related to cloud debugging (Vertex AI or cloud run) we heavily used GCPs cloud logging to view container logs and identify issues.
+
+We did not profile our code yet (pawans PR should have this) this needs to be expanded upon.
+
 
 ## Working in the cloud
 
@@ -377,7 +417,15 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 17 fill here ---
+We used the following GCP services:
+
+- **Cloud Storage (GCS)**: Stores our DVC-tracked dataset, trained model checkpoints and prediction logs.
+- **Artifact Registry**: Stores our two docker images with versioning.
+- **Vertex AI**: Runs our training jobs on  VMs. We submit custom training jobs that pull our training docker image.
+- **Cloud Run**: Hosts our FastAPI inference API. Scales based on traffic and provides HTTPS endpoints.
+- **Cloud Monitoring**: Collects and displays metrics from our API (request latency, count, errors). We also created a custom dashboard.
+- **Cloud Alerting**: Sends notifications when metrics exceed thresholds (e.g., high error rate, instance scaling).
+- **IAM & Workload Identety Federation**: Enables secure, keyless authentication from github actions to GCP services.
 
 ### Question 18
 
@@ -392,7 +440,11 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 18 fill here ---
+We primarily used vertex AI rather than compute engine VMs as Vertex AI manages it automatically. When submitting training jobs to Vertex AI we specified `n1-standard-4` machine types, which have NVIDIA T4 GPUs to accelerate training.
+
+Vertex AI custom training jobs work by pulling our training docker image from artifact registry spinning up VN with sepcified hardware and shutting down the VM when training completes. This is more cost effective than keeping a VM running continuously this also avoids the hassle of remembering to close it down and running everything manually.
+
+For cloud run we let GCP auto-scale instances based on incoming request load. The API container uses minimal resources (1 vCPU, 512MB RAM) since inference is lightweight after the model is loaded.
 
 ### Question 19
 
@@ -401,7 +453,12 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 19 fill here ---
+![GCS Bucket Contents](figures/gcs_bucket.png)
+
+Our GCS bucket `mlops-group-40-2026-dvc` contains:
+- `data/`: DVC-tracked coffee leaf disease dataset
+- `models/`: Trained model checkpoints
+- `predictions/`: Logged predictions from the API for drift monitoring
 
 ### Question 20
 
@@ -410,7 +467,13 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 20 fill here ---
+![Artifact Registry](figures/artifact_registry.png)
+
+Our Artifact Registry repository `ml-images` in `europe-west1` contains two Docker images
+- `train`: Training container with PyTorch, DVC, and training scripts
+- `api`: FastAPI inference container with model serving code
+
+Each image has multiple tagged versions corresponding to git commits allowing us to roll back if needed.
 
 ### Question 21
 
@@ -419,7 +482,9 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 21 fill here ---
+![GitHub Actions Build History](figures/github_actions_builds.png)
+
+The image shows our action workflow history with green checkmarks indicating successful builds. Each build pushes both training and API images to Artifact Registry. Failed builds (red X) helped us identify and fix issues.
 
 ### Question 22
 
@@ -434,7 +499,9 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 22 fill here ---
+We successfully trained our model in the cloud using Vertex AI. We chose Vertex AI over raw Compute Engine because it handles VM and cleanup with no hassle. Gihub actions builds and pushes the training docker image to artifact registry andthe a CI workflow (see train-on-change.yaml) triggers when data or config files change, which auot submits a Vertex AI custom training job using a gcloud command- Vertex AI pulls the Docker image and runs training on a GPU VM amd the trained model is saved to GCS.
+
+The training config (`vertex_train.yaml`) specifies the machine type (`n1-standard-4`), GPU (NVIDIA T4), and Docker image URI. Training runs take about 15-20 minutes for our dataset. We can also manually trigger training jobs from the command line for experimentation.
 
 ## Deployment
 
@@ -451,7 +518,13 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 23 fill here ---
+We wrote a FastAPI application for model inference (src/coffee_leaf_classifier/api.py). The API has three main endpoints
+
+- `GET /health`: Returns service health status
+- `GET /info`: Returns model metadata (classes, version)
+- `POST /predict`: Accepts an image file and returns disease classification with probabilities
+
+We added prometheus metrics instrumentation for monitoring (request latency, count, errors), structured logging with loguru. The model is loaded from GCS at startup and cached in memory for fast inference. We also built a streamlit frontend (app.py) that communicates with the API. Input validation ensures only valid image files (jpg, png) are accepted, returning appropriate HTTP 400 errors for invalid requests.
 
 ### Question 24
 
@@ -467,7 +540,19 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 24 fill here ---
+We deployed our API both locally and to the cloud. For local development and testing we run the FastAPI server with hot-reloading:
+```bash
+uv run uvicorn src.coffee_leaf_classifier.api:app --reload
+```
+
+For cloud deployment we use cloud run. Our API Docker image is built by github actions and pushed to artifact registry. Then we manually deploy to cloud run. The API is publicly accessible at: `https://coffee-api-485178670977.europe-west1.run.app`
+
+To invoke the prediction service users can send an image file via curl:
+```bash
+curl -X POST -F "file=@coffee_leaf.jpg" https://coffee-api-485178670977.europe-west1.run.app/predict
+```
+
+The response contains the predicted disease class and confidence probabilities for all classes. Cloud run auto scales from 0 to more instances based on incoming traffic. When idle it scales to zero to minimize costs.
 
 ### Question 25
 
@@ -482,7 +567,17 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 25 fill here ---
+Yes, we performed both unit testing and load testing of our API.
+
+For **unit testing**, we use pytest with 12 tests covering the API endpoints. Tests verify correct responses for valid inputs, proper error handling for invalid files, and health check functionality. These run automatically in CI on every PR.
+
+For **load testing**, we used Locust. Our load test simulates users uploading images to the `/predict` endpoint. Results showed:
+- The API handles ~20-30 requests/second on a single cloud run instance
+- Average response time: ~200-300ms per prediction
+- Cloud run auto scaled to multiple instances under heavy load
+- No failures under sustained load of 50 concurrent users
+
+The load test runs automatically in github actions after docker builds complete, ensuring we catch performance regressions.
 
 ### Question 26
 
@@ -497,7 +592,17 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 26 fill here ---
+Yes, we implemented comprehensive monitoring for our deployed API:
+
+1. **Prometheus Instrumentation**: Using promethues our API automatically exposes metrics at `/metrics` including request latency histograms, request counts by endpoint and status code, and active request gauges.
+
+2. **GCP Cloud Monitoring**: We created a custom dashboard showing API request rates, latency percentiles (p50, p95, p99), error rates, and cloud run instance counts for API health.
+
+3. **Alerting**: We configured GCP alerts that notify us via email when error rates spike, latency exceeds thresholds or when service is down.
+
+4. **Prediction Logging**: Each prediction is logged to GCS with the input image, predicted class, confidence score, and timestamp. This enables drift detection by comparing prediction distributions over time.
+
+This monitoring helps us to ensure the API is healthy in a production scenario and allows for detection of issues before users are significantly impacted.
 
 ## Overall discussion of project
 
@@ -516,7 +621,13 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 27 fill here ---
+We estimate our group used approximately $(check number) in GCP credits across all members. Services were:
+
+1. **Vertex AI training**: Each GPU training job costs ~$...., and we ran many iterations during development and debugging.
+2. **Cloud Run**: Minimal cost due to scaling to zero and load testing was quite limited so low spikes.
+3. **Cloud Storage**: Negligible cost for our ~500MB dataset.
+
+Working in the cloud was initially challenging due to the learning curve with permissions, service accounts, and the many interconnected GCP services. Setting up CI/CD integration with github actions  took some trial and error. Once configured the cloud infrastructure proved very good for efficiency as we could run GPU training without local hardware, deploy APIs with automatic scaling and collaborate with the shared cloud resources. In retrospect we should have begun automating a lot of the cloud stuff with CI/CD and actions earlier as we spent quite some time on gcloud commands.
 
 ### Question 28
 
@@ -532,7 +643,15 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 28 fill here ---
+We implemented several extra features:
+
+1. **Streamlit Frontend** A very simple web UI (`app.py`) where users can upload coffee leaf images and see predictions with confidence scores visualized as bar charts.
+
+2. **Data Drift Detection**: Using evidently, we created a drift detection script (`drift_detection.py`) that compares incoming prediction data distributions against the training data baseline. This helps identify when the model may need retraining.
+
+3. **Prediction Logging**: Every API prediction is logged to GCS with metadata (timestamp, predicted class, confidence). This creates an audit trail and enables offline drift analysis.
+
+4. **Automated Training Triggers**: CI/CD workflow that automatically submits Vertex AI training jobs when data or config files change.
 
 ### Question 29
 
@@ -549,7 +668,28 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 29 fill here ---
+![MLOps Architecture](figures/architecture.png)
+
+Our MLOps pipeline consists of three main flows development, training, and serving.
+
+**Development Flow**
+Developers work locally using VS Code with Python, PyTorch Lightning, and Hydra for configuration. Code is version controlled with git and data is version controlled with DVC pointing to a GCS bucket. Precommit hooks run ruff for linting/formatting before each commit to ensure code stays consistent.
+
+**CI/CD Flow**
+When code is pushed to GitHub, several workflows trigger automatically:
+1. **tests.yaml**: Runs pytest unit tests
+2. **linting.yaml**: Checks code style with ruff
+3. **docker-build.yaml**: Builds Docker images and pushes to artifact registry
+4. **train-on-change.yaml**: If data or config files changed, submits a Vertex AI training job
+
+**Training Flow**
+Vertex AI pulls the training Docker image from Artifact Registry, provisions a GPU VM, runs training, logs metrics to Weights & Biases, and saves the model checkpoint to GCS. DVC tracks the model version.
+
+**Serving Flow**
+Cloud run hosts our FastAPI inference API. At startup it downloads the latest model from GCS. Users (or the Streamlit frontend) send images to the `/predict` endpoint. The API returns predictions and logs them to GCS for drift monitoring. Prometheus metrics are scraped by cloud monitoring, which powers our dashboard and alerting.
+
+This architecture enables reproducible experiments, automated training, and scalable serving with minimal manual intervention. Several features we wanted to add but couldnt due to time constraints.
+Ideally we would have orchestrated the flow so that we restart the cloud run FastAPI when a new model is added to GCS, then we would run the load test on the new model and run drift detection, which then ends quielty if no drift is detected or does some sort of alert of triggers a retrain if drift is detected.
 
 ### Question 30
 
@@ -563,7 +703,18 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 30 fill here ---
+The biggest challenges in our project were:
+
+**1. DVC in docker containers**: Getting DVC to work inside Docker containers was frustrating. The `dvc pull` command requires git context by default, but Docker containers don't have the full git repository. We initially tried `--no-scm` flags that didn't exist, then discovered we needed to set `no_scm = true` in `.dvc/config`. This took multiple PRs to resolve.
+
+**2. github actions disk space**: Our Docker builds started failing with "no space left" errors. Github actions runners have limited disk space and our images are large. We solved this by adding cleanup steps that remove unused software before building.
+
+**3. GCP**: Many operations failed silently or with hard to read errors due to missing IAM roles. Setting up WIF required configuration of service account permissions, workload identity pools and attribute mappings. Debugging any cloud related infrastructure issues in the pipeline was more challenging than anticipated and took a long time as docker images had to rebuilt and pushed and jobs had to be restarted.
+
+**4. Coordinating as a Team**: With multiple team members working on different features simultaneously we sometimes had merge conflicts or stepped on each other's changes. We improved by communicating more actively about who was working on what and using smaller more focused PRs. It was also a challenge keeping track of everything that was being worked what could be checked and what to work on next.
+We managed this github issues, where we tried to keep an overview of stuff to work on and its priority.
+
+In general debugging infrastructure rather than code and the boundaries between the different steps in pipeline was really challenging and not something we had worked on before.
 
 ### Question 31
 
@@ -581,14 +732,14 @@ will check the repositories and the code to verify your answers.
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
-fewafewubaofewnafioewnifowf ewafw afew afewafewafionewoanf waf ewonfieownaf fewnaiof newio fweanøf wea fewa
- fweafewa fewiagonwa ognwra'g
- wa
- gwreapig ipweroang w rag
- wa grwa
-  g
-  ew
-  gwea g
-  ew ag ioreabnguorwa bg̈́aw
-   wa
-   gew4igioera giroeahgi0wra gwa
+**Student s256475 (Ulrik)**: Led infrastructure and MLOps pipeline development including streamlit frontend, cloud run API deployment, load testing with Locust, GCP Artifact Registry integration, DVC data versioning, github actions and general CI/CD workflows, Vertex AI cloud training, drift detection with evidently and prediction logging. Debugged containerized deployments and wrote documentation for relevant sections.
+
+**Student sXXXXXX (Lampros)**: Primary code reviewer and repository maintainer main reponsible for code reviews and approving pull requests. Implemented distributed data loading, hydra configuration templates, dataset unit tests, W&B logging integration, and setup the GCP alerts.
+
+**Student sXXXXXX (Yarin)**: Initialized the cookiecutter project template and implemented the model architecture. Created the hyperparameter sweep configuration (W&B sweeps) and contributed model unit tests.
+
+**Student sXXXXXX (Andreas)**: Set up Prometheus API instrumentation for monitoring. Responsible for data and model development, DVC setup, and code reviews.
+
+**Student sXXXXXX (Pawan)**: Contributed to project planning and discussions.
+
+All members participated through our PR based workflow. We used github copilot to debug infrastructure issues (GCP IAM, docker, github actions) and to generate boilerplate code, which significantly accelerated development.
