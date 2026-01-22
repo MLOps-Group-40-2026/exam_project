@@ -173,9 +173,7 @@ These packages helped streamline our pipeline even though we did not intentional
 >
 > Answer:
 
-We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and extended throughout the course by adding the packages required to fulfill the checklist. Dependencies were defined and locked using `pyproject.toml` and `uv.lock`. That allows any user to recreate the exact environment via `uv sync`.
-
-For a new team member to get started, they would: (1) clone the repository, (2) install uv if not already installed, (3) run `uv sync` to install all locked dependencies, and (4) optionally pull DVC data with `dvc pull`. Additionally, Docker was used to package the same locked environment into containers, ensuring identical code behaviour on different machines, in CI/CD pipelines, and when deployed to GCP Cloud Run.
+We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and extended throughout the course by adding the packages required to fulfill the checklist. Dependences were defined and locked using pyproject.toml and uv.lock. That allows any user to recreate the exact environment via uv sync. Additionally, docker was used to package the same locked environment, ensuring identical code behaviour on different machines and in GPC.
 
 ### Question 5
 
@@ -191,9 +189,9 @@ For a new team member to get started, they would: (1) clone the repository, (2) 
 >
 > Answer:
 
-We initialized our project using the MLOps cookiecutter template, as provided in S2 - M6 on code structure. The main source code lives in `src/coffee_leaf_classifier/` where we filled out `data.py`, `model.py`, `train.py` , `api.py`, and `app.py`. The `tests/` folder contains unit tests for the data, model, and API components. The `config/` folder contains all the relevant configuration files, as were used alongside the W&B, Vertex and Hydra tools.
+We initialized our project using the MLOps cookiecutter template, as provided in S2 - M6 on code structure. The main source code lives in `src/coffee_leaf_classifier/` where we filled out `data.py`, `model.py`, `train.py`, `api.py`, and added `app.py` and `drift_detection.py`. The `tests/` folder contains unit tests for the data, model, and API components, plus `locustfile.py` for load testing. The `configs/` folder contains all the relevant configuration files, as were used alongside the W&B, Vertex and Hydra tools.
 
-We mostly followed the original template that was provided, as it did not seem necessary to introduce any changes to it in the context of our selected project. The additional directories that were added to our project (and are not a part of the original template) are tool-related, such add the `.dvc/`, `.pytest_cache/` and `.ruff_cache/` folders for the DVC, PyTest and ruff tools, respectively.
+We mostly followed the original template that was provided, as it did not seem necessary to introduce any changes to it in the context of our selected project. We added three GitHub workflows beyond the template: `docker-build.yaml`, `load-test.yaml`, and `train-on-change.yaml`. We removed `evaluate.py` and `visualize.py` from the template as we did not have time to implement dedicated evaluation and visualization modules. The additional directories that were added to our project (and are not a part of the original template) are tool related, such as the `.dvc/`, `data/`, and `checkpoints/` folders for data versioning and model storage.
 
 ### Question 6
 
@@ -353,11 +351,7 @@ PYTHONPATH=src uv run python -m coffee_leaf_classifier.train \
 >
 > Answer:
 
-For experiment reproducibility, we inserted random seeds in both PyTorch and NumPy to ensure deterministic behavior. All experiment parameters are captured through Hydra configuration files (`configs/`), which define model architecture, training hyperparameters, and data paths. These configs are version controlled with git.
-
-In addition, we used W&B to automatically log configuration values, metrics, loss curves, and runtime metadata for every experiment, guaranteeing that all information about different runs is documented. W&B also tracks the git commit hash, linking each experiment to its exact code version.
-
-To reproduce an experiment, one would: (1) checkout the logged git commit, (2) copy the Hydra config from W&B or the `outputs/` folder, and (3) run training with that config. This combination of deterministic seeds, versioned configs, and comprehensive logging ensures experiments can be reliably reproduced.
+For experiment reproducibility, we inserted random seeds and ensured that all experiment parameters were captured through hydra configurations. In addition, we used W&B to automatically log configuration values, metrics, and runtime metadata for every experiment,guaranteeing that all the information about the different runs are documented. Therefore, each experiment can be reproduced by combining the recorded configuration with the corresponding code version.
 
 ### Question 14
 
@@ -427,9 +421,10 @@ Images are automatically built and pushed to artifact registry via github action
 >
 > Answer:
 
-Debugging methods varied by team member. Some used IDE debuggers (VS Code, PyCharm) with breakpoints while others relied on print statements or loguru logging. As most issues were related to cloud debugging (Vertex AI jobs or Cloud Run containers), we heavily used GCP's Cloud Logging to view container logs and identify issues. This was essential for debugging Docker image builds and API deployment problems that only manifested in the cloud environment.
+Debugging methods varied by team member. Some used IDEs debugger with breakpoints while others relied on print statements or logging. As most issues where related to cloud debugging (Vertex AI or cloud run) we heavily used GCPs cloud logging to view container logs and identify issues.
 
-Regarding profiling, we did not complete a systematic profiling pass of our code. This was on our roadmap but we ran out of time before the deadline. The training pipeline could likely benefit from profiling to identify bottlenecks in data loading or model forward passes. For future work, we would use PyTorch Profiler or cProfile to analyze performance.
+We did not profile our code yet (pawans PR should have this) this needs to be expanded upon.
+
 
 ## Working in the cloud
 
