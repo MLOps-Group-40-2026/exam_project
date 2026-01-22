@@ -368,7 +368,7 @@ Using multiple configuration files was a bit confusing to begin with, but it lat
 
 ![W&B Training Dashboard](figures/wandb_training.png)
 
-As can be seen in the screenshot above, we use the W&B framework to track experiments and evaluate the models we train. The metrics we track during training are the validation loss (`val_loss`), valdation accuracy (`val_acc`), and the training loss (`train_loss`). These are the standard metrics to track when training deep learning models in order to understand if the model converges or not. We can see an overall imprvement in all documented metrics without reaching a plateau, probably suggesting that further training of the model over more epochs can lead to even better results on the given dataset. As a central platform for logging, visualization and comparison, W&B helps us keep track of these metrics, which gives a clear picture of the model's learning progress.
+As can be seen in the screenshot above, we use the W&B framework to track experiments and evaluate the models we train. The metrics we track during training are the validation loss (`val_loss`), valdation accuracy (`val_acc`), and the training loss (`train_loss`). These are the standard metrics to track when training deep learning models in order to understand if the model converges or not. We can see an overall improvement in all documented metrics without reaching a plateau, probably suggesting that further training of the model over more epochs can lead to even better results on the given dataset. As a central platform for logging, visualization and comparison, W&B helps us keep track of these metrics, which gives a clear picture of the model's learning progress.
 
 ### Question 15
 
