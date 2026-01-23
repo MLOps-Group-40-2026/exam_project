@@ -640,6 +640,9 @@ This monitoring helps us to ensure the API is healthy in a production scenario a
 
 ![API Monitoring Dashboard](figures/api_monitoring.png)
 
+![GCP Alerting](figures/alerts.png)
+
+
 ## Overall discussion of project
 
 > In the following section we would like you to think about the general structure of your project.
@@ -666,7 +669,7 @@ This monitoring helps us to ensure the API is healthy in a production scenario a
 
 Working in the cloud was initially challenging due to the learning curve with permissions, service accounts, and the many interconnected GCP services. Setting up CI/CD integration with github actions  took some trial and error. Once configured the cloud infrastructure proved very good for efficiency as we could run GPU training without local hardware, deploy APIs with automatic scaling and collaborate with the shared cloud resources. In retrospect we should have begun automating a lot of the cloud stuff with CI/CD and actions earlier as we spent quite some time on gcloud commands.
 
-![GCP Alerting](figures/alerts.png)
+![GCP Billing](figures/gcp_billing.png)
 
 ### Question 28
 
