@@ -102,7 +102,7 @@ will check the repositories and the code to verify your answers.
 * [X] Instrument your API with a couple of system metrics (M28)
 * [X] Setup cloud monitoring of your instrumented application (M28)
 * [X] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
-* [X] If applicable, optimize the performance of your data loading using distributed data loading (M29)
+* [ ] If applicable, optimize the performance of your data loading using distributed data loading (M29)
 * [ ] If applicable, optimize the performance of your training pipeline by using distributed training (M30)
 * [ ] Play around with quantization, compilation and pruning for you trained models to increase inference speed (M31)
 
@@ -175,7 +175,7 @@ These packages helped streamline our pipeline even though we did not intentional
 
 We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and was extended throughout the course by adding the packages required to fulfill the project's checklist. Dependencies were defined and locked using the `pyproject.toml` and `uv.lock` files. That allows any user to recreate the exact environment via the `uv sync` command. Additionally, docker was used to package the same locked environment, ensuring identical code behaviour on different machines and in GPC. Using the uv package manager proved to be much more efficient than using the traditional `pip` with the `requirements.txt` and `requirements_dev.txt` files, since all project contributors could easily add and remove dependencies and grouping them (for instance, defining development dependencies) without breaking additional packages. The way uv handles dependency resolution also turned out to be very useful when (in some cases) certain package versions couldn't work with other packages.
 
-For someone new to to get started on the project, they would need to first clone the repository, install uv and run `uv sync` to install all dependencies.
+To start working on the project, first clone the repository, install uv and run `uv rsync` to install all dependencies.
 
 ### Question 5
 
@@ -233,7 +233,7 @@ Compliance with these concepts in larger projects helps to ensure consistency ac
 
 We implemented 21 tests across three test files. We test the API endpoints to ensure the service works correctly and handles errors gracefully. We test the data loading pipeline to verify dataset structure, image preprocessing, and correct tensor shapes using monkeypatched mock data. We test the model's forward pass to ensure correct output dimensions and that prediction probabilities sum to 1.
 
-Our tests are fairly surface level focusing on validation. The API tests load the real model rather than using mocks and we lack integration tests for the full pipeline. More rigorous testing wouldve been prefered.
+Our tests are fairly surface level focusing on validation. The API tests load the real model rather than using mocks and we lack integration tests for the full pipeline. More rigorous testing would've been prefered.
 
 ### Question 8
 
@@ -313,7 +313,7 @@ We organized our continuous integration into 6 github action workflows.
 
 6. **pre-commit-update.yaml**: Updates pre commit hooks weekly to keep dependencies current.
 
-We use caching for `uv` dependencies to speed up CI runs cached runs complete in under 2 minutes versus 5+ minutes uncached. We test across multiple operating systems (Ubuntu, Windows, macOS) and Python versions (3.11, 3.12) using a matrix strategy so we make sure code works across different environments. The workflows ensured we could have confidence in our code during development as we could catch code that led to failing tests and lateron also failing training or docker image building. An example of our test workflow can be seen here https://github.com/MLOps-Group-40-2026/exam_project/actions/workflows/tests.yaml
+We use caching for `uv` dependencies to speed up CI runs cached runs complete in under 2 minutes versus 5+ minutes uncached. We test across multiple operating systems (Ubuntu, Windows, macOS) and Python versions (3.11, 3.12) using a matrix strategy so we make sure code works across different environments. The workflows ensured we could have confidence in our code during development as we could catch code that led to failing tests and later on also failing training or docker image building. An example of our test workflow can be seen here https://github.com/MLOps-Group-40-2026/exam_project/actions/workflows/tests.yaml
 
 
 ## Running code and tracking experiments
@@ -333,7 +333,7 @@ We use caching for `uv` dependencies to speed up CI runs cached runs complete in
 >
 > Answer:
 
-For the project, we configured our work using Hydra, which allows the creation of hierarchical and composable configuration files written in YAML. Thus, we separated configuration into three different groups (experiment, model, training), making it easy to define different setups without changing code. Additiopally, Hydra allows overriding parameters from the command line, enabling rapid experimentation unbounded from the initial configuration. Experiments were executed using uv run, ensuring they always run inside the exact same virtual environment, using either our original configurration or overridden parameters.
+For the project, we configured our work using Hydra, which allows the creation of hierarchical and composable configuration files written in YAML. Thus, we separated configuration into three different groups (experiment, model, training), making it easy to define different setups without changing code. Additiopally, Hydra allows overriding parameters from the command line, enabling rapid experimentation unbounded from the initial configuration. Experiments were executed using `uv run`, ensuring they always run inside the exact same virtual environment, using either our original configurration or overridden parameters.
 
 To run locally:
 ```bash
@@ -357,7 +357,7 @@ PYTHONPATH=src uv run python -m coffee_leaf_classifier.train \
 
 For experiment reproducibility, we set a fixed random seed in our Hydra configuration (`experiment.seed: 13`) which is used to ensure deterministic behavior across runs. All experiment parameters including learning rate, batch size, and model architecture are captured in the configuration files and can be overridden via command line. Using this set up we secured that every experiment is defined by a specific configuration, avoiding setting hard-coded values. In addition, we used W&B to automatically log configuration values, alongside metrics and runtime metadata for every experiment, guaranteeing that all the information about different runs is documented. Thus, each run is uniquely identified and stored, allowing to trace back the exact configuration and ensuring that no information is lost during experimentation. Therefore, to reproduce any experiment one would retrieve the logged configuration from W&B and run training with the same parameters and code version. The combination of version controlled configs, fixed seeds, `uv run` for locked python environment and W&B logging creates a trail for reproducibility.
 
-Using multiple configuration files was confusing to begin with, but became convenientfor organising parameters separately. Eg the training parameters all being located in the `config/training/default.yaml` file and are separated from model and experiments parameters.
+Using multiple configuration files was initially confusing, but became convenient for organising parameters separately. E.g. The training parameters are all located in the config/training/default.yaml file and are separated from model and experiments parameters.
 
 
 ### Question 14
@@ -423,7 +423,7 @@ Images are automatically built and pushed to artifact registry via github action
 
 Debugging methods varied by team member. Some used IDEs debugger with breakpoints while others relied on print statements or logging. As most issues were related to cloud debugging (Vertex AI or Cloud Run) we heavily used GCP's Cloud Logging to view container logs and identify issues. For local development, VS Code's integrated debugger was useful for stepping through data loading and model code.
 
-We attempted to add PyTorch Profiler integration to identify bottlenecks in our training pipeline, but did not manage to get it merged in time due to team coordination issues near the deadline. If we had completed it would have helped to identify slow operations in the data loading or forward pass. Our code is far from perfect and our data loading could likely benefit from optimization, but we prioritized getting the full pipeline working start to end over fine tuning performance and didnt want to introduce potential issues near the end of the project.
+We attempted to add PyTorch Profiler integration to identify bottlenecks in our training pipeline, but did not manage to get it merged in time due to team coordination issues near the deadline. If we had completed it would have helped to identify slow operations in the data loading or forward pass. Our code is far from perfect and our data loading could likely benefit from optimization, but we prioritized getting the full pipeline working start to end over fine tuning performance and did not want to introduce potential issues near the end of the project.
 
 
 ## Working in the cloud
@@ -527,7 +527,7 @@ The image shows our action workflow history with green checkmarks indicating suc
 >
 > Answer:
 
-We successfully trained our model in the cloud using Vertex AI. We chose Vertex AI over raw Compute Engine because it handles VM and cleanup with no hassle. Gihub actions builds and pushes the training docker image to artifact registry andthe a CI workflow (see train-on-change.yaml) triggers when data or config files change, which auot submits a Vertex AI custom training job using a gcloud command- Vertex AI pulls the Docker image and runs training on a GPU VM amd the trained model is saved to GCS.
+We successfully trained our model in the cloud using Vertex AI. We chose Vertex AI over raw Compute Engine because it handles VM and cleanup with no hassle. Gihub actions builds and pushes the training docker image to artifact registry and the a CI workflow (see train-on-change.yaml) triggers when data or config files change, which auto submits a Vertex AI custom training job using a gcloud command- Vertex AI pulls the Docker image, runs training on a GPU VM and the trained model is saved to GCS.
 
 The training config (`vertex_train.yaml`) specifies the machine type (`n1-standard-4`), GPU (NVIDIA T4), and Docker image URI. Training runs take about 15-20 minutes for our dataset. We can also manually trigger training jobs from the command line for experimentation.
 
@@ -575,14 +575,14 @@ We deployed our API both locally and to the cloud. For local development and tes
 uv run uvicorn src.coffee_leaf_classifier.api:app --reload
 ```
 
-For cloud deployment we use cloud run. Our API Docker image is built by github actions and pushed to artifact registry. Then we manually deploy to cloud run. The API is publicly accessible at: `https://coffee-api-485178670977.europe-west1.run.app`
+For cloud deployment we use cloud run. Our API Docker image is built by github actions and pushed to artifact registry. Then, we manually deploy to cloud run. The API is publicly accessible at: `https://coffee-api-485178670977.europe-west1.run.app`
 
 To invoke the prediction service users can send an image file via curl:
 ```bash
 curl -X POST -F "file=@coffee_leaf.jpg" https://coffee-api-485178670977.europe-west1.run.app/predict
 ```
 
-The response contains the predicted disease class and confidence probabilities for all classes. Cloud run auto scales from 0 to more instances based on incoming traffic. When idle it scales to zero to minimize costs.
+The response contains the predicted disease class and confidence probabilities for all classes. Cloud run auto scales from 0 to more instances based on incoming traffic. When idle, it scales to zero to minimize costs.
 
 ![Cloud Run Deployment](figures/cloud_run.png)
 
@@ -780,13 +780,13 @@ In general debugging infrastructure rather than code and the boundaries between 
 
 **Student s256475 (Ulrik)**: Led infrastructure and MLOps pipeline development including streamlit frontend, cloud run API deployment, load testing with Locust, GCP Artifact Registry integration, DVC data versioning, github actions and general CI/CD workflows, Vertex AI cloud training, drift detection with evidently and prediction logging. Debugged containerized deployments and wrote documentation for relevant sections.
 
-**Student s260189 (Lampros)**: Primary code reviewer and repository maintainer main reponsible for code reviews and approving pull requests. Implemented distributed data loading, hydra configuration templates, dataset unit tests, W&B logging integration, and setup the GCP alerts.
+**Student s260189 (Lampros)**: Primary code reviewer and repository maintainer main reponsible for code reviews and approving pull requests. Implemented hydra configuration templates, dataset unit tests, W&B logging integration, and setup the GCP alerts.
 
 **Student s256672 (Yarin)**: Initialized the cookiecutter project template and implemented the model architecture. Created the hyperparameter sweep configuration (W&B sweeps) and contributed model unit tests. Contributed to project planning and discussions.
 
 **Student s232477 (Andreas)**: Initialized the group's Github organization and repository to ensure all members have admin access. Set up Prometheus API instrumentation for monitoring. Responsible for data and model development, DVC setup, and code reviews.
 
-**Student s257193 (Pawan)**: Contributed to project planning and discussions, as well as review PR to ensure undisturbed workflow.
+**Student s257193 (Pawan)**: Contributed to project planning and discussions, as well as reviewing PR to ensure undisturbed workflow.
 
 All members participated through our PR based workflow. We used github copilot to debug infrastructure issues (GCP IAM, docker, github actions) and to generate boilerplate code, which significantly accelerated development.
 
