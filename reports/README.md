@@ -173,6 +173,9 @@ These packages helped streamline our pipeline even though we did not intentional
 >
 > Answer:
 
+We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and was extended throughout the course by adding the packages required to fulfill the project's checklist. Dependencies were defined and locked using the `pyproject.toml` and `uv.lock` files. That allows any user to recreate the exact environment via the `uv sync` command. Additionally, docker was used to package the same locked environment, ensuring identical code behaviour on different machines and in GPC.
+Using the uv package manager proved to be much more efficient than using the traditional `pip` with the `requirements.txt` and `requirements_dev.txt` files, since all project contributors could easily add and remove dependencies and grouping them (for instance, defining development dependencies) without breaking additional packages. The way uv handles dependency resolution also turned out to be very useful when (in some cases) certain package versions couldn't work with other packages.
+
 We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and extended throughout the course by adding the packages required to fulfill the checklist. Dependencies were defined in pyproject.toml and locked using uv.lock, which pinned the exact versions of all packages. This allows any user to recreate the exact environment via uv sync.
 
 For someone new to to get started on the project, they would need to first clone the repository, install uv and run `uv sync` to install all dependencies. Additionally, Docker was used to package the same locked environment, ensuring identical code behavior on different machines and in GCP. Our Dockerfiles run `uv sync --frozen` to install the exact same versions in containers as locally.
@@ -355,6 +358,9 @@ PYTHONPATH=src uv run python -m coffee_leaf_classifier.train \
 >
 > Answer:
 
+For experiment reproducibility, we inserted random seeds and ensured that all experiment parameters were captured through hydra configurations. In addition, we used W&B to automatically log configuration values, metrics, and runtime metadata for every experiment, ensuring that all the information about the different runs are documented. Therefore, each experiment can be reproduced by combining the recorded configuration with the corresponding code version.
+Using multiple configuration files was a bit confusing to begin with, but it later became much more convenient to have all the related parameters in one place and separated from other parameters - for example, the training parameters are all located in the `config/training/default.yaml` file and are separated from the model and experiments parameters.
+
 For experiment reproducibility, we set a fixed random seed in our Hydra configuration (`experiment.seed: 13`) which is used to ensure deterministic behavior across runs. All experiment parameters including learning rate, batch size, and model architecture are captured in the configuration files and can be overridden via command line. Using this set up we secured that every experiment is defined by a specific configuration, avoiding setting hard-coded values. In addition, we used W&B to automatically log configuration values, alongside metrics and runtime metadata for every experiment, guaranteeing that all the information about different runs is documented. Thus, each run is uniquely identified and stored, allowing to trace back the exact configuration and ensuring that no information is lost during experimentation. Therefore, to reproduce any experiment one would retrieve the logged configuration from W&B and run training with the same parameters and code version. The combination of version controlled configs, fixed seeds, `uv run` for locked python environment and W&B logging creates a trail for reproducibility.
 
 ### Question 14
@@ -374,6 +380,7 @@ For experiment reproducibility, we set a fixed random seed in our Hydra configur
 
 ![W&B Training Dashboard](figures/wandb_training.png)
 
+As can be seen in the screenshot above, we use the W&B framework to track experiments and evaluate the models we train. The metrics we track during training are the validation loss (`val_loss`), valdation accuracy (`val_acc`), and the training loss (`train_loss`). These are the standard metrics to track when training deep learning models in order to understand if the model converges or not. We can see an overall improvement in all documented metrics without reaching a plateau, probably suggesting that further training of the model over more epochs can lead to even better results on the given dataset. As a central platform for logging, visualization and comparison, W&B helps us keep track of these metrics, which gives a clear picture of the model's learning progress.
 As shown in the screenshot we track the following metrics in weights and biases:
 
 - **val_loss**: Validation loss measured after each epoch. This is our primary metric for model selection - lower values indicate the model generalizes better to unseen data.
