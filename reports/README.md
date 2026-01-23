@@ -657,11 +657,12 @@ This monitoring helps us to ensure the API is healthy in a production scenario a
 >
 > Answer:
 
-We estimate our group used approximately $(check number) in GCP credits across all members. Services were:
+ Our GCP project group used 10.35 dkk $(~$1.50) in total. We could only get aggregate billing numbers and not a per member breakdown. The cost was low due to our small dataset and limited training iterations. Below is a breakdown:
 
-1. **Vertex AI training**: Each GPU training job costs ~$...., and we ran many iterations during development and debugging.
-2. **Cloud Run**: Minimal cost due to scaling to zero and load testing was quite limited so low spikes.
-3. **Cloud Storage**: Negligible cost for our ~500MB dataset.
+1. **Artifact Registry**: 5.74 dkk (55%) this was the largest cost presumably from storing multiple docker image versions.
+2. **Vertex AI**: 4.22 dkk (41%) GPU training job costs.
+2. **Cloud Run**: 0.39dkk minimal cost due to scaling to zero and load testing was very limited.
+3. **Cloud Storage**: 0.01 negligible cost for our small dataset.
 
 Working in the cloud was initially challenging due to the learning curve with permissions, service accounts, and the many interconnected GCP services. Setting up CI/CD integration with github actions  took some trial and error. Once configured the cloud infrastructure proved very good for efficiency as we could run GPU training without local hardware, deploy APIs with automatic scaling and collaborate with the shared cloud resources. In retrospect we should have begun automating a lot of the cloud stuff with CI/CD and actions earlier as we spent quite some time on gcloud commands.
 
