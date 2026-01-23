@@ -1,5 +1,16 @@
 # Coffee Leaf Disease Classification (MLOps course project)
 
+**Course:** 02476 Machine Learning Operations (MLOps) - DTU
+**Group:** 40
+
+| Student | Name | GitHub |
+|---------|------|--------|
+| s256475 | Ulrik | [@Seisision](https://github.com/Seisision) |
+| s232477 | Andreas | [@Andreas Papanikolaou](https://github.com/Andreas-Papanikolaou) |
+| s256672 | Yarin | [@YarinBS](https://github.com/YarinBS) |
+| s260189 | Lampros | [@lam-sp](https://github.com/lam-sp) |
+| s257193 | Pawan | [@Pawan Chhipa](https://github.com/Pawan-Chhipa) |
+
 
 ## Overall goal
 Build a reproducible machine learning system that classifies coffee leaf images into disease categories.
@@ -30,17 +41,25 @@ From the dataset viewer and dataset card:
 - Download size: approximately 1.63 GB
 - Classes (5): Healthy, Miner, Phoma, Red Spider Mite, Rust
 
-## Models we expect to use
+## Models we expected to use
 1. Baseline: ResNet-18 or ResNet-34
 2. Stronger baseline: EfficientNet
 3. Experiment with: Vision Transformer baseline (if time allows)
 
-## Evaluation metrics
-Primary metrics:
-- Accuracy
-- Macro F1-score (more robust when classes are imbalanced)
+## What we actually built
 
-Secondary metrics:
+We ended up using a simple custom CNN with 3 convolutional layers instead of the pre-trained models listed above. As the course focused on operations over model performance, a simple model that trains quickly allowed us to iterate faster on the pipeline, CI/CD, and deployment infrastructure. With a small dataset of ~2,100 images, a lightweight model was sufficient for our purposes. A custom architecture with no external pretrained weights is fully reproducible from scratch.
+
+The model performance is modest it works for demonstration purposes but struggles with real world images outside the training distribution. The architecture can easily be swapped for a more sophisticated model (ResNet, EfficientNet) by modifying `src/coffee_leaf_classifier/model.py`.
+
+## Evaluation metrics
+Metrics logged during training:
+- Training loss
+- Validation loss
+- Validation accuracy
+
+Additional metrics (planned but not implemented):
+- Macro F1-score
 - Confusion matrix
 - Per-class precision and recall
 
