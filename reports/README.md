@@ -778,16 +778,16 @@ In general debugging infrastructure rather than code and the boundaries between 
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
-**Student s256475 (Ulrik)**: Led infrastructure and MLOps pipeline development including streamlit frontend, cloud run API deployment, load testing with Locust, GCP Artifact Registry integration, DVC data versioning, github actions and general CI/CD workflows, Vertex AI cloud training, drift detection with evidently and prediction logging. Debugged containerized deployments and wrote documentation for relevant sections. Responsible for figure creation (architecture diagram, screenshot collection etc.). Collaborated on report writing and documentation.
+**Student s256475 (Ulrik)**: Led infrastructure and MLOps pipeline development including streamlit frontend, cloud run API deployment, load testing with Locust, GCP Artifact Registry integration, DVC data versioning, github actions and general CI/CD workflows, Vertex AI cloud training, drift detection with evidently and prediction logging. Debugged containerized deployments and wrote documentation for relevant sections. Responsible for figure creation (architecture diagram, screenshot collection etc.). Collaborated on report writing and documentation. Participated in code reviews and PRs.
 
 **Student s260189 (Lampros)**: Primary code reviewer and repository maintainer main reponsible for code reviews and approving pull requests. Implemented hydra configuration templates, dataset unit tests, W&B logging integration, and setup the GCP alerts. Collaborated on report writing and documentation.
 
-**Student s256672 (Yarin)**: Initialized the cookiecutter project template and implemented the model architecture. Created the hyperparameter sweep configuration (W&B sweeps) and contributed model unit tests. Contributed to project planning and discussions. Collaborated on report writing and documentation.
+**Student s256672 (Yarin)**: Initialized the cookiecutter project template and implemented the model architecture. Created the hyperparameter sweep configuration (W&B sweeps) and contributed model unit tests. Contributed to project planning and discussions. Collaborated on report writing and documentation. Participated in code reviews and PRs.
 
-**Student s232477 (Andreas)**: Initialized the group's Github organization and repository to ensure all members have admin access. Set up Prometheus API instrumentation for monitoring. Responsible for data and model development, DVC setup, and code reviews. Collaborated on report writing and documentation.
+**Student s232477 (Andreas)**: Initialized the group's Github organization and repository to ensure all members have admin access. Set up Prometheus API instrumentation for monitoring. Responsible for data and model development, DVC setup. Collaborated on report writing and documentation. Participated in code reviews and PRs.
 
 **Student s257193 (Pawan)**: Participated in early project discussions. Worked on a profiler feature that was not merged into the final project.
 
-All members participated through our PR based workflow. We used github copilot to debug infrastructure issues (GCP IAM, docker, github actions) and to generate boilerplate code, which significantly accelerated development.
+Development followed a PR based workflow. We used github copilot to debug infrastructure issues (GCP IAM, docker, github actions) and to help generate boilerplate code, which significantly accelerated development.
 
 Generative AI tools were mainly used for explanatory purposes and brainstorming, as well as code review and refining.
