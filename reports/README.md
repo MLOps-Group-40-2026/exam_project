@@ -68,7 +68,7 @@ will check the repositories and the code to verify your answers.
 * [X] Build the docker files locally and make sure they work as intended (M10)
 * [X] Write one or multiple configurations files for your experiments (M11)
 * [X] Used Hydra to load the configurations and manage your hyperparameters (M11)
-* [?] Use profiling to optimize your code (M12)
+* [ ] Use profiling to optimize your code (M12)
 * [X] Use logging to log important events in your code (M14)
 * [X] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
 * [X] Consider running a hyperparameter optimization sweep (M14)
@@ -97,7 +97,7 @@ will check the repositories and the code to verify your answers.
 
 ### Week 3
 
-* [X] Check how robust your model is towards data drifting (M27)
+* [ ] Check how robust your model is towards data drifting (M27)
 * [ ] Deploy to the cloud a drift detection API (M27)
 * [X] Instrument your API with a couple of system metrics (M28)
 * [X] Setup cloud monitoring of your instrumented application (M28)
@@ -109,10 +109,10 @@ will check the repositories and the code to verify your answers.
 ### Extra
 
 * [X] Write some documentation for your application (M32)
-* [soon] Publish the documentation to GitHub Pages (M32)
-* [?] Revisit your initial project description. Did the project turn out as you wanted?
-* [soon] Create an architectural diagram over your MLOps pipeline
-* [?] Make sure all group members have an understanding about all parts of the project
+* [ ] Publish the documentation to GitHub Pages (M32)
+* [X] Revisit your initial project description. Did the project turn out as you wanted?
+* [X] Create an architectural diagram over your MLOps pipeline
+* [ ] Make sure all group members have an understanding about all parts of the project
 * [X] Uploaded all your code to GitHub
 
 ## Group information
@@ -133,7 +133,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
-s256475, s232477, s256672, s260189
+s256475, s232477, s256672, s260189, s257193
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -147,7 +147,13 @@ s256475, s232477, s256672, s260189
 >
 > Answer:
 
-frameworks
+We must admit we did not explicitly plan to include a specific third-party package as we somehow overlooked this requirement. However reviewing our dependencies we did use packages that extend beyond what was directly covered in exercises:
+
+**`prometheus-fastapi-instrumentator`**: While the course covers `prometheus-client`, this specific package provides automatic one-line instrumentation for FastAPI applications. It exposes request latency histograms, request counts by endpoint/status code, and error rates without requiring manual metric definitions. This significantly simplified our monitoring setup compared to manually instrumenting each endpoint.
+
+**Hugging Face `datasets`**: The course mentions `transformers` but the `datasets` library is a separate package for dataset loading. We used `load_dataset` to download from Hugging Face Hub and `load_from_disk` for DVC-cached data. It handles train/validation/test splits automatically.
+
+These packages helped streamline our pipeline even though we did not intentionally select them for this requirement.
 
 ## Coding environment
 
@@ -170,6 +176,9 @@ frameworks
 We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and was extended throughout the course by adding the packages required to fulfill the project's checklist. Dependencies were defined and locked using the `pyproject.toml` and `uv.lock` files. That allows any user to recreate the exact environment via the `uv sync` command. Additionally, docker was used to package the same locked environment, ensuring identical code behaviour on different machines and in GPC.
 Using the uv package manager proved to be much more efficient than using the traditional `pip` with the `requirements.txt` and `requirements_dev.txt` files, since all project contributors could easily add and remove dependencies and grouping them (for instance, defining development dependencies) without breaking additional packages. The way uv handles dependency resolution also turned out to be very useful when (in some cases) certain package versions couldn't work with other packages.
 
+We used the uv package manager for managing our dependencies. The list of dependencies was initialized by cookiecutter and extended throughout the course by adding the packages required to fulfill the checklist. Dependencies were defined in pyproject.toml and locked using uv.lock, which pinned the exact versions of all packages. This allows any user to recreate the exact environment via uv sync.
+
+For someone new to to get started on the project, they would need to first clone the repository, install uv and run `uv sync` to install all dependencies. Additionally, Docker was used to package the same locked environment, ensuring identical code behavior on different machines and in GCP. Our Dockerfiles run `uv sync --frozen` to install the exact same versions in containers as locally.
 
 ### Question 5
 
@@ -185,9 +194,9 @@ Using the uv package manager proved to be much more efficient than using the tra
 >
 > Answer:
 
-We initialized our project using the MLOps cookiecutter template, as provided in S2 - M6 on code structure. The main source code lives in `src/coffee_leaf_classifier/` where we filled out `data.py`, `model.py`, `train.py` , `api.py`, and `app.py`. The `tests/` folder contains unit tests for the data, model, and API components. The `config/` folder contains all the relevant configuration files, as were used alongside the W&B, Vertex and Hydra tools.
+We initialized our project using the MLOps cookiecutter template, as provided in S2 - M6 on code structure. The main source code lives in `src/coffee_leaf_classifier/` where we filled out `data.py`, `model.py`, `train.py`, `api.py`, and added `app.py` and `drift_detection.py`. The `tests/` folder contains unit tests for the data, model, and API components, plus `locustfile.py` for load testing. The `configs/` folder contains all the relevant configuration files, as were used alongside the W&B, Vertex and Hydra tools.
 
-We mostly followed the original template that was provided, as it did not seem necessary to introduce any changes to it in the context of our selected project. The additional directories that were added to our project (and are not a part of the original template) are tool-related, such add the `.dvc/`, `.pytest_cache/` and `.ruff_cache/` folders for the DVC, PyTest and ruff tools, respectively.
+We mostly followed the original template that was provided, as it did not seem necessary to introduce any changes to it in the context of our selected project. We added three GitHub workflows beyond the template: `docker-build.yaml`, `load-test.yaml`, and `train-on-change.yaml`. We removed `evaluate.py` and `visualize.py` from the template as we did not have time to implement dedicated evaluation and visualization modules. The additional directories that were added to our project (and are not a part of the original template) are tool related, such as the `.dvc/`, `data/`, and `checkpoints/` folders for data versioning and model storage.
 
 ### Question 6
 
@@ -204,7 +213,7 @@ We mostly followed the original template that was provided, as it did not seem n
 
 We used `ruff` for both linting and formatting our code, configured with a line length of 120 characters. `ruff` is integrated into our CI pipeline and runs on every pull request. We also set up `pre-commit` hooks that automatically run `ruff` (with auto-fix) and checks for proper formatting and large files before each commit.
 
-For typing we use python type..... Documentation follows google style docstrings and we generate API documentation using mkdocs with the mkdocstrings plugin.
+For typing we use Python type hints in function signatures where it made sense, though coverage is not complete. We did not set up a dedicated documentation generator but added docstrings to key functions following a simple style.
 
 Compliance with these concepts in larger projects helps to ensure consistency across multiple contributors, avoiding extensive code differences and a messy resulting code environment. Aditionally, following code rules allows ealry bug catching, e.g. early recognition of typo errors or undefined variables. In general, it creates a codebase that is easier to understand and maintain. Automated formatting also eliminates pointless style debates in code reviews, allowing the workflow to focus on the code content.
 
@@ -225,7 +234,9 @@ Compliance with these concepts in larger projects helps to ensure consistency ac
 >
 > Answer:
 
-In total, we have implemented 21 tests across three test files. We test the API endpoints (`/health`, `/info`, `/predict`) to ensure the inference service works correctly and handles errors gracefully (invalid input, missing files). We test the data loading pipeline to verify dataset structure, image preprocessing, and correct tensor shapes. We also test the model's forward pass to ensure correct output dimensions and that prediction probabilities sum to 1.
+In total, we have implemented 21 tests across three test files. We test the API endpoints (`/health`, `/info`, `/predict`) to ensure the inference service works correctly and handles errors gracefully (invalid input, missing files). We test the data loading pipeline to verify dataset structure, image preprocessing, and correct tensor shapes using monkeypatched mock data. We also test the model's forward pass to ensure correct output dimensions and that prediction probabilities sum to 1.
+
+Our tests are fairly surface level focusing on basic validation. The API tests load the real model rather than using mocks and we lack integration tests that verify the full data→model→API flow. More rigorous testing would better isolate components.
 
 ### Question 8
 
@@ -350,6 +361,7 @@ PYTHONPATH=src uv run python -m coffee_leaf_classifier.train \
 For experiment reproducibility, we inserted random seeds and ensured that all experiment parameters were captured through hydra configurations. In addition, we used W&B to automatically log configuration values, metrics, and runtime metadata for every experiment, ensuring that all the information about the different runs are documented. Therefore, each experiment can be reproduced by combining the recorded configuration with the corresponding code version.
 Using multiple configuration files was a bit confusing to begin with, but it later became much more convenient to have all the related parameters in one place and separated from other parameters - for example, the training parameters are all located in the `config/training/default.yaml` file and are separated from the model and experiments parameters.
 
+For experiment reproducibility, we set a fixed random seed in our Hydra configuration (`experiment.seed: 13`) which is used to ensure deterministic behavior across runs. All experiment parameters including learning rate, batch size, and model architecture are captured in the configuration files and can be overridden via command line. Using this set up we secured that every experiment is defined by a specific configuration, avoiding setting hard-coded values. In addition, we used W&B to automatically log configuration values, alongside metrics and runtime metadata for every experiment, guaranteeing that all the information about different runs is documented. Thus, each run is uniquely identified and stored, allowing to trace back the exact configuration and ensuring that no information is lost during experimentation. Therefore, to reproduce any experiment one would retrieve the logged configuration from W&B and run training with the same parameters and code version. The combination of version controlled configs, fixed seeds, `uv run` for locked python environment and W&B logging creates a trail for reproducibility.
 
 ### Question 14
 
@@ -369,6 +381,16 @@ Using multiple configuration files was a bit confusing to begin with, but it lat
 ![W&B Training Dashboard](figures/wandb_training.png)
 
 As can be seen in the screenshot above, we use the W&B framework to track experiments and evaluate the models we train. The metrics we track during training are the validation loss (`val_loss`), valdation accuracy (`val_acc`), and the training loss (`train_loss`). These are the standard metrics to track when training deep learning models in order to understand if the model converges or not. We can see an overall improvement in all documented metrics without reaching a plateau, probably suggesting that further training of the model over more epochs can lead to even better results on the given dataset. As a central platform for logging, visualization and comparison, W&B helps us keep track of these metrics, which gives a clear picture of the model's learning progress.
+As shown in the screenshot we track the following metrics in weights and biases:
+
+- **val_loss**: Validation loss measured after each epoch. This is our primary metric for model selection - lower values indicate the model generalizes better to unseen data.
+- **train_loss**: Training loss over time. Comparing this with val_loss helps detect overfitting (when train_loss decreases but val_loss increases).
+- **val_acc**: Validation accuracy showing the percentage of correctly classified samples. This is an intuitive metric for understanding model performance.
+- **epoch**: Training progress tracker to correlate metrics with training duration.
+
+These metrics are good for monitoring training progress and making decisions about when to stop training or adjust hyperparameters.
+
+We should note that our W&B integration was initially misconfigured early in development. The project name in our config did not match where runs were being logged and we were accidentally running in offline mode due to human error. This meant we did not actively monitor experiments during most of our development process. When we moved over to vertex AI we also forgot to pass the API key. We discovered and fixed these issues near the end of the project. The integration now works correctly and automatically logs metrics when training runs via our CI/CD pipeline. In hindsight we should have verified the W&B setup was working properly from the start to better leverage experiment tracking during development.
 
 ### Question 15
 
@@ -410,9 +432,9 @@ Images are automatically built and pushed to artifact registry via github action
 >
 > Answer:
 
-Debugging methods varied by team member. Some used IDEs debugger with breakpoints while others relied on print statements or logging. As most issues where related to cloud debugging (Vertex AI or cloud run) we heavily used GCPs cloud logging to view container logs and identify issues.
+Debugging methods varied by team member. Some used IDEs debugger with breakpoints while others relied on print statements or logging. As most issues were related to cloud debugging (Vertex AI or Cloud Run) we heavily used GCP's Cloud Logging to view container logs and identify issues. For local development, VS Code's integrated debugger was useful for stepping through data loading and model code.
 
-We did not profile our code yet (pawans PR should have this) this needs to be expanded upon.
+We attempted to add PyTorch Profiler integration to identify bottlenecks in our training pipeline, but did not manage to get it merged in time due to team coordination issues near the deadline. If we had completed it would have helped to identify slow operations in the data loading or forward pass. Our code is far from perfect and our data loading could likely benefit from optimization, but we prioritized getting the full pipeline working start to end over fine tuning performance and didnt want to introduce potential issues near the end of the project.
 
 
 ## Working in the cloud
@@ -520,6 +542,8 @@ We successfully trained our model in the cloud using Vertex AI. We chose Vertex 
 
 The training config (`vertex_train.yaml`) specifies the machine type (`n1-standard-4`), GPU (NVIDIA T4), and Docker image URI. Training runs take about 15-20 minutes for our dataset. We can also manually trigger training jobs from the command line for experimentation.
 
+![Vertex AI Training Jobs](figures/vertex_training.png)
+
 ## Deployment
 
 ### Question 23
@@ -590,13 +614,13 @@ We performed both unit testing and load testing of our API.
 
 For **unit testing**, we use pytest with 12 tests covering the API endpoints. Tests verify correct responses for valid inputs, proper error handling for invalid files, and health check functionality. These run automatically in CI on every PR.
 
-For **load testing**, we used Locust. Our load test simulates users uploading images to the `/predict` endpoint. Results showed:
-- The API handles ~20-30 requests/second on a single cloud run instance
-- Average response time: ~200-300ms per prediction
-- Cloud run auto scaled to multiple instances under heavy load
-- No failures under sustained load of 50 concurrent users
+For **load testing**, we used Locust. Our load test (`tests/locustfile.py`) simulates users hitting the `/health`, `/info`, and `/predict` endpoints with weighted task distribution. Running with 10 concurrent users for 60 seconds, results showed:
+- ~4.8 requests/second aggregate throughput
+- Average response time 48ms (health: 44ms, predict: 65ms)
+- 0% HTTP failure rate (no connection errors or timeouts) across 286 requests
+- Cold start latency ~25-28 seconds when Cloud Run scales from zero
 
-The load test runs automatically in github actions after docker builds complete, ensuring we catch performance regressions.
+Note that 10 concurrent users is relatively low for serious load testing and we used synthetic test images rather than real data. Due to time constraints we did not perform more extensive stress testing to find the breaking point. The load test workflow triggers automatically via `workflow_run` after docker builds complete.
 
 ### Question 26
 
@@ -670,11 +694,15 @@ Working in the cloud was initially challenging due to the learning curve with pe
 
 We implemented several extra features:
 
-1. **Streamlit Frontend** A very simple web UI (`app.py`) where users can upload coffee leaf images and see predictions with confidence scores visualized as bar charts.
+1. **Streamlit Frontend**: A simple web UI (`app.py`) where users can upload coffee leaf images and see predictions with confidence scores. The frontend runs locally and connects to our Cloud Run API for inference. (Note predictions on arbitrary images from google showed near uniform distributions, but as model accuracy was outside our course scope we focused on building the MLOps pipeline. Though this is obviously not ideal).
 
-2. **Data Drift Detection**: Using evidently, we created a drift detection script (`drift_detection.py`) that compares incoming prediction data distributions against the training data baseline. This helps identify when the model may need retraining.
+![Streamlit Frontend - Upload](figures/frontend1.png)
 
-3. **Prediction Logging**: Every API prediction is logged to GCS with metadata (timestamp, predicted class, confidence). This creates an audit trail and enables offline drift analysis.
+![Streamlit Frontend - Prediction](figures/frontend2.png)
+
+2. **Data Drift Monitoring**: We created a drift detection script (`drift_detection.py`) using evidently that extracts image features and compares prediction distributions against a baseline. It was not deployed as a cloud API (checklist items unchecked) but can be run manually via CLI to generate HTML reports.
+
+3. **Prediction Logging**: Every API prediction is logged to GCS with metadata (timestamp, predicted class, confidence) for audit trails and potential drift analysis.
 
 4. **Automated Training Triggers**: CI/CD workflow that automatically submits Vertex AI training jobs when data or config files change.
 
@@ -714,7 +742,7 @@ Vertex AI pulls the training Docker image from Artifact Registry, provisions a G
 Cloud run hosts our FastAPI inference API. At startup it downloads the latest model from GCS. Users (or the Streamlit frontend) send images to the `/predict` endpoint. The API returns predictions and logs them to GCS for drift monitoring. Prometheus metrics are scraped by cloud monitoring, which powers our dashboard and alerting.
 
 This architecture enables reproducible experiments, automated training, and scalable serving with minimal manual intervention. Several features we wanted to add but could not due to time constraints.
-Ideally we would have orchestrated the flow so that we restart the cloud run FastAPI when a new model is added to GCS, then we would run the load test on the new model and run drift detection, which then ends quielty if no drift is detected or does some sort of alert of triggers a retrain if drift is detected.
+Ideally we would have orchestrated the flow so that we restart the cloud run FastAPI when a new model is added to GCS, then we would run the load test on the new model and run drift detection, which then ends quielty if no drift is detected or does some sort of alert of triggers a retrain if drift is detected. We also would have liked to deploy a separate cloud run service (with related CI/CD) hosting the frontend.
 
 ### Question 30
 
@@ -761,12 +789,12 @@ In general debugging infrastructure rather than code and the boundaries between 
 
 **Student s260189 (Lampros)**: Primary code reviewer and repository maintainer main reponsible for code reviews and approving pull requests. Implemented distributed data loading, hydra configuration templates, dataset unit tests, W&B logging integration, and setup the GCP alerts.
 
-**Student s256672 (Yarin)**: Initialized the cookiecutter project template and implemented the model architecture. Created the hyperparameter sweep configuration (W&B sweeps) and contributed model unit tests. Contributed to project planning and discussions. Generative AI tools were mainly used for debugging assistance alongside the IDE, and overall brainstorming.
+**Student s256672 (Yarin)**: Initialized the cookiecutter project template and implemented the model architecture. Created the hyperparameter sweep configuration (W&B sweeps) and contributed model unit tests. Contributed to project planning and discussions.
 
 **Student s232477 (Andreas)**: Initialized the group's Github organization and repository to ensure all members have admin access. Set up Prometheus API instrumentation for monitoring. Responsible for data and model development, DVC setup, and code reviews.
 
-**Student sXXXXXX (Pawan)**: Contributed to project planning and discussions.
+**Student s257193 (Pawan)**: Contributed to project planning and discussions, as well as review PR to ensure undisturbed workflow.
 
 All members participated through our PR based workflow. We used github copilot to debug infrastructure issues (GCP IAM, docker, github actions) and to generate boilerplate code, which significantly accelerated development.
 
-Generative AI tools were used for mainly explanatory purposes and late code review and refining.
+Generative AI tools were mainly used for explanatory purposes and brainstorming, as well as code review and refining.
