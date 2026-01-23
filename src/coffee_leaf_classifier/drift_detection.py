@@ -266,8 +266,8 @@ def main():
     print("=" * 50)
 
     for test in test_results.get("tests", []):
-        status = "✅ PASS" if test.get("status") == "SUCCESS" else "❌ FAIL"
-        print(f"{status}: {test.get('name')}")
+        status = "PASS" if test.get("status") == "SUCCESS" else "FAIL"
+        print(f"[{status}] {test.get('name')}")
 
     print(f"\nFull report saved to: {args.output}")
     print("=" * 50)
