@@ -133,7 +133,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
-s256475, s232477, s256672, s260189
+s256475, s232477, s256672, s260189, s257193
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -355,9 +355,7 @@ PYTHONPATH=src uv run python -m coffee_leaf_classifier.train \
 >
 > Answer:
 
-For experiment reproducibility, we set a fixed random seed in our Hydra configuration (`experiment.seed: 13`) which is used to ensure deterministic behavior across runs. All experiment parameters including learning rate, batch size, and model architecture are captured in the configuration files and can be overridden via command line.
-
-We used W&B to automatically log these configuration values alongside metrics and runtime metadata for every experiment, guaranteeing that all the information about different runs is documented. Therefore, to reproduce any experiment one would retrieve the logged configuration from W&B and run training with the same parameters and code version. The combination of version controlled configs, fixed seeds, and W&B logging creates a trail for reproducibility.
+For experiment reproducibility, we set a fixed random seed in our Hydra configuration (`experiment.seed: 13`) which is used to ensure deterministic behavior across runs. All experiment parameters including learning rate, batch size, and model architecture are captured in the configuration files and can be overridden via command line. Using this set up we secured that every experiment is defined by a specific configuration, avoiding setting hard-coded values. In addition, we used W&B to automatically log configuration values, alongside metrics and runtime metadata for every experiment, guaranteeing that all the information about different runs is documented. Thus, each run is uniquely identified and stored, allowing to trace back the exact configuration and ensuring that no information is lost during experimentation. Therefore, to reproduce any experiment one would retrieve the logged configuration from W&B and run training with the same parameters and code version. The combination of version controlled configs, fixed seeds, `uv run` for locked python environment and W&B logging creates a trail for reproducibility.
 
 ### Question 14
 
@@ -784,12 +782,12 @@ In general debugging infrastructure rather than code and the boundaries between 
 
 **Student s260189 (Lampros)**: Primary code reviewer and repository maintainer main reponsible for code reviews and approving pull requests. Implemented distributed data loading, hydra configuration templates, dataset unit tests, W&B logging integration, and setup the GCP alerts.
 
-**Student s256672 (Yarin)**: Initialized the cookiecutter project template and implemented the model architecture. Created the hyperparameter sweep configuration (W&B sweeps) and contributed model unit tests. Contributed to project planning and discussions. Generative AI tools were mainly used for debugging assistance alongside the IDE, and overall brainstorming.
+**Student s256672 (Yarin)**: Initialized the cookiecutter project template and implemented the model architecture. Created the hyperparameter sweep configuration (W&B sweeps) and contributed model unit tests. Contributed to project planning and discussions.
 
 **Student s232477 (Andreas)**: Initialized the group's Github organization and repository to ensure all members have admin access. Set up Prometheus API instrumentation for monitoring. Responsible for data and model development, DVC setup, and code reviews.
 
-**Student sXXXXXX (Pawan)**: Contributed to project planning and discussions.
+**Student s257193 (Pawan)**: Contributed to project planning and discussions, as well as review PR to ensure undisturbed workflow.
 
 All members participated through our PR based workflow. We used github copilot to debug infrastructure issues (GCP IAM, docker, github actions) and to generate boilerplate code, which significantly accelerated development.
 
-Generative AI tools were used for mainly explanatory purposes and late code review and refining.
+Generative AI tools were mainly used for explanatory purposes and brainstorming, as well as code review and refining.
