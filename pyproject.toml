@@ -46,7 +46,7 @@ dev = [
     "mkdocs==1.6.1",
     "pre-commit==4.5.1",
     "pytest==9.0.2",
-    "ruff==0.14.13",
+    "ruff==0.14.14",
     "mkdocstrings-python==2.0.1",
     "streamlit>=1.53.0",
     "locust>=2.43.1",
